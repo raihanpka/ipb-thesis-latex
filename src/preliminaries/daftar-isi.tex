@@ -1,0 +1,46 @@
+% =============================================================================
+% Daftar Isi, Daftar Tabel, Daftar Gambar, Daftar Lampiran
+%
+% PPKI: Setiap daftar tampil di halaman baru dengan judul 14pt, tebal,
+% rata tengah. Daftar Tabel/Gambar/Lampiran hanya dibuat bila lebih dari
+% satu.
+% =============================================================================
+
+% --- DAFTAR ISI ---
+\clearpage
+\renewcommand{\contentsname}{DAFTAR ISI}
+\tableofcontents
+
+\clearpage
+
+% --- DAFTAR TABEL ---
+% (hanya dibuat jika jumlah tabel lebih dari satu)
+\renewcommand{\listtablename}{DAFTAR TABEL}
+\addcontentsline{toc}{chapter}{DAFTAR TABEL}
+\listoftables
+
+\clearpage
+
+% --- DAFTAR GAMBAR ---
+% (hanya dibuat jika jumlah gambar lebih dari satu)
+\renewcommand{\listfigurename}{DAFTAR GAMBAR}
+\addcontentsline{toc}{chapter}{DAFTAR GAMBAR}
+\listoffigures
+
+\clearpage
+
+% --- DAFTAR LAMPIRAN ---
+% (hanya dibuat jika jumlah lampiran lebih dari satu)
+\chapter*{DAFTAR LAMPIRAN}
+\addcontentsline{toc}{chapter}{DAFTAR LAMPIRAN}
+
+\noindent
+\begin{enumerate}[label=\arabic*., leftmargin=2em]
+  \item Lampiran 1 \enspace Rata-rata dan simpangan baku beberapa sifat fisik
+        dan kimia tanah dari 78 contoh tanah di Kebun Percobaan Ciheuleut
+        \dotfill \pageref{lamp:tanah}
+
+  \item Lampiran 2 \enspace Umur, indeks luas daun, dan hasil biji kering
+        jagung yang ditanam pada lima ketinggian tempat
+        \dotfill \pageref{lamp:jagung}
+\end{enumerate}

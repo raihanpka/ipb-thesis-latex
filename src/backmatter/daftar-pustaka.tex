@@ -1,0 +1,29 @@
+% =============================================================================
+% Daftar Pustaka
+%
+% PPKI Edisi ke-4: gaya author-year (Harvard) dengan format:
+%   - In-text: (Author Year) atau (Author1 dan Author2 Year) atau
+%              (Author1 dkk. Year) untuk >2 penulis
+%   - Daftar pustaka urut alfabet, hanging indent 1 cm, periode sebagai
+%     pemisah field, tahun tanpa kurung.
+%   - Semua penulis ditulis lengkap (tidak dipotong "dkk." di daftar pustaka).
+%
+% Perintah yang bisa dipakai di teks (sintaks natbib kompatibel):
+%   \citep{key}                  -> (Author Year)
+%   \citep[hal. 5]{key}          -> (Author Year, hal. 5)
+%   \citet{key}                  -> Author (Year)
+%   \citep{key1,key2}            -> (Author1 Year1; Author2 Year2)
+%   \citeauthor{key}             -> Author
+%   \citeyear{key}               -> Year
+%
+% Backend: biber (bukan bibtex). Style didefinisikan di src/config/ipb-thesis.sty.
+% Daftar pustaka di-deklarasikan di src/main.tex melalui \addbibresource.
+% =============================================================================
+
+\chapter*{DAFTAR PUSTAKA}
+\addcontentsline{toc}{chapter}{DAFTAR PUSTAKA}
+
+% Cetak daftar pustaka. Heading none agar tidak ada judul tambahan
+% (judul "DAFTAR PUSTAKA" sudah ditangani oleh \chapter* di atas).
+\printbibliography[heading=none]
+
