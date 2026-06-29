@@ -1,0 +1,332 @@
+% =============================================================================
+% ipb-thesis.sty
+%
+% Style file untuk Template Tugas Akhir Sarjana (S1) IPB University.
+% Disesuaikan dengan PPKI (Pedoman Penulisan Karya Ilmiah) Edisi ke-4.
+%
+% Konten file ini hanya berisi paket dan aturan format; tidak ada \begin{document}.
+% Pemuatan dilakukan oleh src/main.tex.
+% =============================================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ipb-thesis}[2026/06/29 v2.0 IPB Thesis Style (PPKI Edisi 4)]
+
+% -----------------------------------------------------------------------------
+% 1. Encoding & Bahasa
+% -----------------------------------------------------------------------------
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[main=indonesian, english, provide=*]{babel}
+
+% -----------------------------------------------------------------------------
+% 2. Font Times New Roman 12pt
+% -----------------------------------------------------------------------------
+\RequirePackage{mathptmx}
+
+% -----------------------------------------------------------------------------
+% 3. Ukuran Halaman & Margin
+% -----------------------------------------------------------------------------
+\RequirePackage[a4paper,
+  twoside,
+  top=3cm,
+  bottom=3cm,
+  inner=3cm,
+  outer=3cm,
+  bindingoffset=1cm,
+  headheight=15pt,
+  headsep=20pt,
+  footskip=30pt
+]{geometry}
+
+% -----------------------------------------------------------------------------
+% 4. Spasi & Indentasi Paragraf
+% -----------------------------------------------------------------------------
+\RequirePackage{setspace}
+\singlespacing
+\RequirePackage{indentfirst}
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{0pt}
+
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+
+% -----------------------------------------------------------------------------
+% 5. Header & Footer (fancyhdr)
+% -----------------------------------------------------------------------------
+\RequirePackage{fancyhdr}
+
+% -----------------------------------------------------------------------------
+% 6. Format Judul Bab & Subbab (titlesec)
+% -----------------------------------------------------------------------------
+\RequirePackage{titlesec}
+
+% Chapter: 14pt bold center, "I  PENDAHULUAN"
+\titleformat{\chapter}[block]
+  {\normalfont\fontsize{14pt}{17pt}\selectfont\bfseries\centering}
+  {\thechapter\hspace{1.5em}}
+  {\hspace{1.5em}}
+  {\MakeUppercase}
+  []
+
+\titlespacing*{\chapter}{0pt}{-15pt}{24pt}
+
+% Section (subbab): 12pt bold left
+\titleformat{\section}[hang]
+  {\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries}
+  {\thesection}
+  {1em}
+  {}
+  []
+
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+
+% Subsection (sub-subbab): 12pt tidak tebal
+\titleformat{\subsection}[hang]
+  {\normalfont\fontsize{12pt}{14pt}\selectfont}
+  {\thesubsection}
+  {1em}
+  {}
+  []
+
+\titlespacing*{\subsection}{0pt}{6pt}{3pt}
+
+\titleformat{\subsubsection}[hang]
+  {\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries}
+  {\thesubsubsection}
+  {1em}
+  {}
+  []
+
+\titlespacing*{\subsubsection}{0pt}{6pt}{3pt}
+
+% -----------------------------------------------------------------------------
+% 7. Penomoran
+% -----------------------------------------------------------------------------
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+\RequirePackage{chngcntr}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+
+% -----------------------------------------------------------------------------
+% 8. Caption
+% -----------------------------------------------------------------------------
+\RequirePackage{caption}
+
+\DeclareCaptionFormat{ipb}{#1#2#3\par}
+\DeclareCaptionLabelFormat{ipblabel}{#1~#2}
+
+\captionsetup{
+  format        = hang,
+  labelformat   = ipblabel,
+  labelsep      = space,
+  font          = {normalsize},
+  labelfont     = {},
+  textfont      = {},
+  justification = justified,
+  singlelinecheck = false
+}
+
+\captionsetup[figure]{
+  name         = Gambar,
+  position     = below,
+  justification = justified,
+  singlelinecheck = true
+}
+
+\captionsetup[table]{
+  name         = Tabel,
+  position     = above
+}
+
+\newcounter{lampiran}
+\renewcommand{\thelampiran}{\arabic{lampiran}}
+\newcommand{\captionlampiran}[1]{%
+  \refstepcounter{lampiran}%
+  \par\noindent\hangindent=5.6em
+  \makebox[5.4em][l]{\textbf{Lampiran \thelampiran}}#1\par
+}
+
+% -----------------------------------------------------------------------------
+% 9. Daftar Isi, Tabel, Gambar (tocloft)
+% -----------------------------------------------------------------------------
+\RequirePackage{tocloft}
+
+\renewcommand{\cfttoctitlefont}{\hfill\fontsize{14pt}{17pt}\selectfont\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftlottitlefont}{\hfill\fontsize{14pt}{17pt}\selectfont\bfseries}
+\renewcommand{\cftafterlottitle}{\hfill}
+\renewcommand{\cftloftitlefont}{\hfill\fontsize{14pt}{17pt}\selectfont\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill}
+
+\renewcommand{\cftchapfont}{\normalfont}
+\renewcommand{\cftchappagefont}{\normalfont}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftchapindent}{0pt}
+\setlength{\cftsecindent}{1.5em}
+\setlength{\cftsubsecindent}{3.5em}
+\setlength{\cftbeforechapskip}{0pt}
+\setlength{\cftbeforesecskip}{0pt}
+\renewcommand{\cftchapaftersnum}{\enspace}
+
+% -----------------------------------------------------------------------------
+% 10. Tabel
+% -----------------------------------------------------------------------------
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{tabularx}
+\RequirePackage{multirow}
+\RequirePackage{longtable}
+
+% -----------------------------------------------------------------------------
+% 11. Gambar
+% -----------------------------------------------------------------------------
+\RequirePackage{graphicx}
+\RequirePackage{float}
+\AddToHook{env/table/begin}{\centering}
+\AddToHook{env/figure/begin}{\centering}
+
+% -----------------------------------------------------------------------------
+% 12. Matematika
+% -----------------------------------------------------------------------------
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+
+% -----------------------------------------------------------------------------
+% 13. Sitasi & Daftar Pustaka (biblatex)
+% -----------------------------------------------------------------------------
+\RequirePackage[backend=bibtex,
+  style=authoryear,
+  natbib=true,
+  language=english,
+  sortcites=true,
+  date=year,
+  giveninits=true,
+  uniquename=init,
+  uniquelist=false,
+  isbn=false,
+  doi=false,
+  url=false,
+  eprint=false,
+  maxcitenames=2,
+  mincitenames=1,
+  maxbibnames=99,
+  minbibnames=1
+]{biblatex}
+
+% --- String Indonesia (CSL Pak Auriza) ---
+\DefineBibliographyStrings{english}{%
+  and          = {dan},%
+  andothers    = {et al\adddot},%
+  editor       = {penyunting},%
+  editors      = {penyunting},%
+  byeditor     = {diedit oleh},%
+  bytranslator = {diterjemahkan oleh},%
+  in           = {Di dalam},%
+  page         = {hlm},%
+  pages        = {hlm}%
+}
+
+% --- Format nama: "Baez J" ---
+\renewcommand*{\revsdnamepunct}{\addspace}
+\renewcommand*{\bibinitperiod}{}
+\renewcommand*{\multinamedelim}{\addcomma\space}
+
+% --- finalnamedelim: pustaka tanpa "dan", in-text pakai "dan" ---
+\DeclareDelimFormat[bib]{finalnamedelim}{\addcomma\space}
+\DeclareDelimFormat{finalnamedelim}{%
+  \ifnum\value{liststop}>2
+    \finalandcomma
+  \fi
+  \addspace dan \addspace
+}
+
+\renewcommand*{\compcitedelim}{\multicitedelim}
+
+% --- Tahun tanpa kurung ---
+\renewbibmacro*{issue+date}{%
+  \printfield{issue}%
+  \setunit*{\addspace}%
+  \printfield{labelyear}%
+  \newunit}
+
+% --- Separator periode ---
+\renewcommand*{\labelnamepunct}{\addperiod\space}
+\ifdefined\labeldatepunct
+  \renewcommand*{\labeldatepunct}{\addperiod\space}
+\fi
+\ifdefined\revcompnamepunct
+  \renewcommand*{\revcompnamepunct}{\addperiod\space}
+\fi
+
+% --- In-text (Author Year) tanpa koma ---
+\DeclareDelimFormat[parencite]{nameyeardelim}{\addspace}
+\DeclareDelimFormat[cite]{nameyeardelim}{\addspace}
+\DeclareDelimFormat[textcite]{nameyeardelim}{\addspace}
+\DeclareDelimFormat[bib]{nameyeardelim}{\addspace}
+
+% --- Format jurnal ---
+\DeclareFieldFormat[article]{title}{#1}
+\DeclareFieldFormat[article]{journaltitle}{\textit{#1}}
+\DeclareFieldFormat[article]{volume}{\textit{#1}}
+\DeclareFieldFormat[article]{pages}{#1}
+\DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
+
+% --- PPKI: tanpa spasi antar entri + hanging indent 1cm ---
+\setlength{\bibitemsep}{0pt}
+\setlength{\bibhang}{1cm}
+
+\AtEveryBibitem{%
+  \clearlist{location}%
+  \clearfield{month}%
+  \clearfield{langid}%
+}
+
+% -----------------------------------------------------------------------------
+% 14. Paket Pendukung
+% -----------------------------------------------------------------------------
+\RequirePackage{microtype}
+\RequirePackage{xcolor}
+\RequirePackage{url}
+\RequirePackage{enumitem}
+\RequirePackage{hanging}
+\RequirePackage{csquotes}
+
+% -----------------------------------------------------------------------------
+% 15. Perintah Bantu
+% -----------------------------------------------------------------------------
+\newcommand{\setchaptermargins}{%
+  \newgeometry{top=3cm, bottom=3cm, inner=4cm, outer=3cm, bindingoffset=0cm,
+    headheight=12pt, headsep=20pt}%
+}
+
+\newcommand{\setpreliminarymargins}{%
+  \newgeometry{top=3cm, bottom=3cm, inner=3cm, outer=3cm, bindingoffset=1cm}%
+}
+
+\newcommand{\chapterbreak}{\cleardoublepage}
+
+\newcommand{\ipbtablenote}[1]{%
+  \par\vspace{2pt}\noindent{\footnotesize #1}%
+}
+
+\newcommand{\ipbfigurenote}[1]{%
+  \par\vspace{2pt}\noindent{\footnotesize #1}%
+}
+
+\AtEndPreamble{%
+  \RequirePackage[
+    colorlinks=false,
+    hidelinks,
+    pdfauthor={\@author},
+    pdftitle={\@title},
+    pdfsubject={Skripsi Sarjana (S1) IPB University},
+    pdfkeywords={IPB, skripsi, tugas akhir, PPKI}
+  ]{hyperref}%
+}
+
+\endinput
