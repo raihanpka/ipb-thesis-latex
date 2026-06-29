@@ -1,0 +1,604 @@
+# GUIDE.md
+
+Panduan lengkap instalasi, penggunaan, troubleshooting, dan kustomisasi
+untuk template LaTeX Tugas Akhir Sarjana (S1) IPB University. Dokumen
+ini adalah pelengkap dari [README.md](README.md) yang hanya memuat
+informasi singkat.
+
+## Daftar Isi
+
+- [1. Instalasi LaTeX](#1-instalasi-latex)
+  - [1.1 macOS: BasicTeX via Homebrew (hemat storage)](#11-macos-basictex-via-homebrew-hemat-storage)
+  - [1.2 macOS: MacTeX via Homebrew (lengkap, ~5 GB)](#12-macos-mactex-via-homebrew-lengkap-5-gb)
+  - [1.3 Windows: MiKTeX](#13-windows-miktex)
+  - [1.4 Windows: TeX Live](#14-windows-tex-live)
+  - [1.5 Linux: TeX Live](#15-linux-tex-live)
+  - [1.6 Verifikasi Instalasi](#16-verifikasi-instalasi)
+- [2. Penggunaan Template](#2-penggunaan-template)
+  - [2.1 Isi Data Mahasiswa](#21-isi-data-mahasiswa)
+  - [2.2 Tulis Isi Skripsi](#22-tulis-isi-skripsi)
+  - [2.3 Bangun PDF](#23-bangun-pdf)
+  - [2.4 Tambah Referensi](#24-tambah-referensi)
+  - [2.5 Tambah Bab Baru](#25-tambah-bab-baru)
+  - [2.6 Pakai Overleaf](#26-pakai-overleaf)
+- [3. Panduan Sitasi dan Daftar Pustaka](#3-panduan-sitasi-dan-daftar-pustaka)
+  - [3.1 Format PPKI](#31-format-ppki)
+  - [3.2 Perintah Sitasi](#32-perintah-sitasi)
+  - [3.3 Entri BibTeX/biber](#33-entri-biber)
+- [4. Kustomisasi Lanjutan](#4-kustomisasi-lanjutan)
+  - [4.1 Memisahkan Bab Hasil dan Pembahasan](#41-memisahkan-bab-hasil-dan-pembahasan)
+  - [4.2 Mengubah Compiler ke XeLaTeX atau LuaLaTeX](#42-mengubah-compiler-ke-xelatex-atau-lualatex)
+  - [4.3 Menambah Persamaan Matematika](#43-menambah-persamaan-matematika)
+  - [4.4 Menambah Penyorotan Sintaks Kode](#44-menambah-penyorotan-sintaks-kode)
+  - [4.5 Tabel dari CSV](#45-tabel-dari-csv)
+- [5. Troubleshooting](#5-troubleshooting)
+- [6. Catatan PPKI yang Tidak Otomatis](#6-catatan-ppki-yang-tidak-otomatis)
+
+---
+
+## 1. Instalasi LaTeX
+
+Template ini membutuhkan distribusi LaTeX yang **lengkap** karena
+memerlukan paket `biblatex`, `biber`, `chktex`, dan paket tambahan
+lainnya. Pilih distribusi sesuai kebutuhan storage dan platform.
+
+### 1.1 macOS: BasicTeX via Homebrew (hemat storage)
+
+BasicTeX adalah installer minimal (~130 MB). Cocok untuk Anda yang
+ingin hemat storage dan tidak keberatan menginstall paket tambahan
+secara manual via `tlmgr`. **Ini adalah pilihan yang dipakai oleh
+pengembang template ini.**
+
+```
+brew install --cask basictex
+```
+
+Setelah BasicTeX terinstall, install paket tambahan yang dibutuhkan
+template. Jalankan dari root repositori:
+
+```
+make install
+```
+
+Target `install` di Makefile mendeteksi OS dan distribusi TeX secara
+otomatis, lalu menjalankan `tlmgr install` untuk paket yang
+dibutuhkan: `biblatex`, `biber`, `chktex`, `titlesec`, `tocloft`,
+`fancyhdr`, `caption`, `booktabs`, `enumitem`, `hanging`,
+`multirow`, `longtable`, `csquotes`, `microtype`, dan beberapa
+paket tambahan.
+
+Atau manual jika lebih suka:
+
+```
+sudo tlmgr update --self
+sudo tlmgr install \
+    biblatex biber chktex titlesec tocloft \
+    fancyhdr caption booktabs enumitem hanging \
+    multirow longtable csquotes
+```
+
+Total setelah install paket tambahan: ~500 MB, jauh lebih kecil
+dibanding MacTeX yang ~6 GB.
+
+### 1.2 macOS: MacTeX via Homebrew (lengkap, ~5 GB)
+
+Cara paling bersih dan termutakhir untuk macOS. Homebrew mengelola
+symlink secara otomatis. Semua paket sudah termasuk sejak awal,
+tidak perlu `tlmgr` lagi.
+
+```
+brew install --cask mactex-no-gui
+```
+
+Versi `mactex-no-gui` adalah installer CLI-only. Pilih ini kalau
+Anda tidak butuh TeXShop, LaTeXiT, dan BibDesk. Kalau butuh
+aplikasi GUI, gunakan:
+
+```
+brew install --cask mactex
+```
+
+Setelah instalasi, tambahkan path TeX ke `~/.zshrc` atau
+`~/.bash_profile`:
+
+```
+export PATH="/Library/TeX/texbin:$PATH"
+```
+
+Lalu muat ulang shell:
+
+```
+source ~/.zshrc
+```
+
+Verifikasi:
+
+```
+which pdflatex latexmk biber chktex
+pdflatex --version | head -1
+biber --version
+```
+
+### 1.3 Windows: MiKTeX
+
+1. Unduh MiKTeX dari <https://miktex.org/download>.
+2. Jalankan installer; pilih **Install for current user only** atau
+   **Install for all users** sesuai kebutuhan.
+3. Aktifkan auto-install paket yang hilang: MiKTeX Console > Settings
+   > "Install missing packages on-the-fly: Yes".
+4. Tambahkan path ke PATH (biasanya `C:\Program Files\MiKTeX\miktex\bin\x64`).
+
+Verifikasi di Command Prompt:
+
+```
+where pdflatex
+where biber
+pdflatex --version
+biber --version
+```
+
+### 1.4 Windows: TeX Live
+
+1. Unduh installer dari <https://tug.org/texlive/windows.html>.
+2. Pilih instalasi **full scheme** (sekitar 8 GB) atau **medium scheme**
+   (~2 GB) jika ruang terbatas.
+3. PATH otomatis ditambahkan saat instalasi.
+
+### 1.5 Linux: TeX Live
+
+Ubuntu atau Debian:
+
+```
+sudo apt update
+sudo apt install texlive-full biber chktex latexmk
+```
+
+Fedora:
+
+```
+sudo dnf install texlive-scheme-full biber chktex latexmk
+```
+
+Arch Linux:
+
+```
+sudo pacman -S texlive-most biber chktex
+```
+
+Catatan: `texlive-full` sangat besar (8 GB+). Untuk instalasi lebih
+kecil, gunakan `texlive-latex-extra`, `texlive-latex-recommended`,
+`texlive-fonts-recommended`, dan paket individual lainnya.
+
+### 1.6 Verifikasi Instalasi
+
+Pastikan semua tool penting tersedia:
+
+```
+which pdflatex latexmk biber chktex
+```
+
+Versi minimal yang disarankan:
+
+- pdfLaTeX 3.141 atau lebih baru
+- latexmk 4.70 atau lebih baru
+- biber 2.16 atau lebih baru
+- chktex 1.7 atau lebih baru (opsional, untuk `make validate`)
+
+---
+
+## 2. Penggunaan Template
+
+### 3.1 Isi Data Mahasiswa
+
+Buka `src/config/information.tex` dan ganti semua placeholder:
+
+```latex
+\newcommand{\NamaPenulis}{Nama Lengkap Anda}
+\newcommand{\NamaPenulisInggris}{Your Full Name}
+\newcommand{\NIM}{A000000000}
+\newcommand{\JudulSkripsi}{Judul Skripsi Anda Maksimum Tiga Baris, Lima Belas Kata}
+\newcommand{\NamaPembimbingSatu}{Prof. Dr. Nama Pembimbing Satu, M.Sc.}
+\newcommand{\NamaPembimbingDua}{Dr. Nama Pembimbing Dua, M.Si.}
+\newcommand{\Departemen}{Departemen Ilmu Komputer}
+\newcommand{\ProgramStudiSingkat}{Ilmu Komputer}
+```
+
+`ProgramStudiSingkat` digunakan oleh Makefile untuk membentuk nama
+PDF. Pilih versi pendek yang tidak memuat kata "Departemen" atau
+"Program Studi".
+
+### 3.2 Tulis Isi Skripsi
+
+Edit file per bab di `src/chapters/chapter-N.tex`. Setiap bab sudah
+dilengkapi teks panduan PPKI IPB; ganti dengan isi sebenarnya.
+
+Untuk menulis subbab baru dalam sebuah bab:
+
+```latex
+\chapter{PENDAHULUAN}
+
+\section{Latar Belakang}
+Isi latar belakang...
+
+\section{Rumusan Masalah}
+Isi rumusan masalah...
+```
+
+Penomoran subbab otomatis mengikuti bab: `1.1`, `1.2`, `2.1`, dst.
+Sub-subbab menggunakan `1.1.1`, `1.1.2`, dst.
+
+### 3.3 Bangun PDF
+
+Pilih salah satu:
+
+```
+make              # Linux atau macOS
+make.bat          # Windows
+```
+
+Output di `dist/Skripsi_<ProgramStudiSingkat>_<Nama>_<Bulan Tahun>.pdf`.
+
+Untuk terus memantau perubahan:
+
+```
+make watch
+```
+
+Setiap 2 detik template akan di-rebuild. Tekan Ctrl+C untuk berhenti.
+
+### 3.4 Tambah Referensi
+
+Tambahkan entri ke `src/refs/daftar-pustaka.bib`:
+
+```bibtex
+@article{Smith2024,
+  author  = {Smith, J.A. and Doe, R.B.},
+  year    = {2024},
+  title   = {Judul artikel dalam sentence case},
+  journal = {Nama Jurnal},
+  volume  = {10},
+  number  = {2},
+  pages   = {100--115},
+  doi     = {10.1234/jurnal.2024.001}
+}
+```
+
+Sitasi di teks:
+
+```latex
+\citep{Smith2024}        % -> (Smith dan Doe 2024)
+\citet{Smith2024}        % -> Smith dan Doe (2024)
+\citep[hal. 105]{Smith2024}  % -> (Smith dan Doe 2024, hal. 105)
+```
+
+Setelah menambah entri, jalankan ulang `make build`.
+
+### 3.5 Tambah Bab Baru
+
+Buat file baru di `src/chapters/`, misalnya `chapter-6.tex`:
+
+```latex
+\chapter{BAB BARU}
+
+\section{Pendahuluan Bab}
+Isi pendahuluan bab baru...
+```
+
+Lalu tambahkan di `src/main.tex` pada bagian `\mainmatter`:
+
+```latex
+\input{chapters/chapter-6}    % BAB VI  BAB BARU
+```
+
+### 3.6 Pakai Overleaf
+
+1. Buka <https://www.overleaf.com>.
+2. Buat proyek baru > "Upload Project" > pilih folder hasil clone
+   dari GitHub.
+3. Compiler otomatis: `pdfLaTeX`. Template ini tidak butuh
+   konfigurasi tambahan di Overleaf karena biblatex dan biber sudah
+   built-in.
+
+Atau gunakan tautan langsung: <https://www.overleaf.com/read/zcgrrzkfgkcw>.
+
+---
+
+## 4. Panduan Sitasi dan Daftar Pustaka
+
+### 4.1 Format PPKI
+
+Sesuai PPKI Edisi ke-4:
+
+- **In-text**: (Author Year) atau (Author1 dan Author2 Year) atau
+  (Author1 dkk. Year) untuk lebih dari 2 penulis.
+- **Daftar pustaka**:
+  - Urut alfabet berdasarkan nama belakang penulis pertama.
+  - Hanging indent 1 cm.
+  - Pemisah field menggunakan **titik** (bukan koma).
+  - Tahun **tanpa kurung**.
+  - Semua penulis ditulis lengkap (tidak disingkat "dkk.").
+  - Judul jurnal dan volume dalam cetak miring.
+  - DOI dicantumkan bila ada.
+
+Contoh daftar pustaka yang dihasilkan:
+
+```
+Bente, A. D. dan R. Rico-Hesse. 2006. Model of dengue virus infection.
+    Drug Discovery Today: Disease Models 3(1): 97-103.
+    doi:10.1016/j.ddmod.2006.03.014.
+
+Kochel, T. J., D. M. Watts, A. S. Gozalo, D. F. Ewing, K. R. Porter
+    dan K. L. Russell. 2005. Cross-serotype neutralization of dengue
+    virus in Aotus nancymaae monkeys. Journal of Infectious Diseases
+    191(6): 1000-1004. doi:10.1086/427511.
+```
+
+### 4.2 Perintah Sitasi
+
+Template ini menggunakan biblatex dengan emulasi natbib. Perintah
+natbib standar tetap bekerja:
+
+| Perintah | Hasil |
+|---|---|
+| `\citep{Smith2024}` | (Smith dan Doe 2024) |
+| `\citet{Smith2024}` | Smith dan Doe (2024) |
+| `\citep[hal. 5]{Smith2024}` | (Smith dan Doe 2024, hal. 5) |
+| `\citep{Smith2024,Jones2020}` | (Smith dan Doe 2024; Jones 2020) |
+| `\citeauthor{Smith2024}` | Smith dan Doe |
+| `\citeyear{Smith2024}` | 2024 |
+| `\citealp{Smith2024}` | Smith dan Doe, 2024 |
+
+### 4.3 Entri BibTeX/biber
+
+Tipe entri yang umum dipakai:
+
+- `@article` - artikel jurnal
+- `@book` - buku
+- `@inproceedings` - prosiding seminar
+- `@thesis` atau `@mastersthesis` atau `@phdthesis` - skripsi/tesis/disertasi
+- `@online` - sumber daring
+- `@misc` - lain-lain
+
+Field wajib:
+
+- `author` atau `editor` (kecuali untuk `@online`)
+- `title`
+- `year`
+
+Field khusus PPKI:
+
+- `langid = {english}` untuk sumber berbahasa Inggris (memengaruhi
+  ejaan di daftar pustaka).
+
+---
+
+## 5. Kustomisasi Lanjutan
+
+### 5.1 Memisahkan Bab Hasil dan Pembahasan
+
+Jika pembimbing meminta bab Hasil dan Pembahasan dipisah, edit
+`src/main.tex` di bagian `\mainmatter`:
+
+```latex
+% Ganti satu baris ini:
+\input{chapters/chapter-4}
+
+% Menjadi dua baris:
+\input{chapters/chapter-4-hasil}
+\input{chapters/chapter-4-pembahasan}
+```
+
+Buat file `chapter-4-hasil.tex`:
+
+```latex
+\chapter{HASIL}
+% ... isi bab Hasil
+```
+
+### 5.2 Mengubah Compiler ke XeLaTeX atau LuaLaTeX
+
+Buka `src/config/ipb-thesis.sty`. Cari baris:
+
+```latex
+\RequirePackage{mathptmx}
+```
+
+Ganti dengan:
+
+```latex
+\RequirePackage{fontspec}
+\setmainfont{Times New Roman}
+```
+
+Pastikan font Times New Roman tersedia di sistem operasi. Compile
+dengan `xelatex` atau `lualatex`.
+
+### 5.3 Menambah Persamaan Matematika
+
+Paket `amsmath` dan `amssymb` sudah dimuat. Contoh:
+
+```latex
+\begin{equation}
+  y = ax^2 + bx + c
+  \label{eq:persamaan-kuadratik}
+\end{equation}
+```
+
+Rujuk di teks:
+
+```latex
+\ldots sesuai Persamaan~\ref{eq:persamaan-kuadratik}.
+```
+
+### 5.4 Menambah Penyorotan Sintaks Kode
+
+Paket `listings` sudah dimuat. Contoh:
+
+```latex
+\begin{lstlisting}[language=Python, caption={Kode program Python}, label={lst:contoh}]
+def hello():
+    print("Hello, world!")
+\end{lstlisting}
+```
+
+Atau gunakan `minted` (memerlukan Pygments). Tambahkan di
+`src/config/ipb-thesis.sty`:
+
+```latex
+\RequirePackage{minted}
+```
+
+### 5.5 Tabel dari CSV
+
+Tambahkan di `src/config/ipb-thesis.sty`:
+
+```latex
+\RequirePackage{csvsimple}
+```
+
+Gunakan di bab:
+
+```latex
+\begin{table}[H]
+  \centering
+  \caption{Kebutuhan fungsional sistem}
+  \label{tab:kebutuhan}
+  \csvautotabular{resources/data.csv}
+\end{table}
+```
+
+Simpan `data.csv` di `src/resources/`.
+
+---
+
+## 6. Troubleshooting
+
+### Error: "File `biblatex.sty' not found"
+
+biblatex belum terinstall. Install:
+
+```
+sudo tlmgr install biblatex     # TeX Live
+# atau buka MiKTeX Console dan install paket biblatex
+```
+
+### Error: "biber not found"
+
+biber adalah program terpisah dari biblatex. Install:
+
+```
+sudo tlmgr install biber
+# macOS Homebrew: brew install biber
+```
+
+### Error: "Citation `xxx' undefined"
+
+Biblatex butuh biber untuk memproses `.bib`. Compile dengan
+`latexmk` yang otomatis menjalankan biber:
+
+```
+latexmk -pdf src/main.tex
+```
+
+Atau manual:
+
+```
+pdflatex src/main.tex
+biber src/main.tex
+pdflatex src/main.tex
+pdflatex src/main.tex
+```
+
+### Error: "Package keyval Error: openany undefined"
+
+`openany` adalah opsi `documentclass`, bukan `geometry`. Buka
+`src/config/ipb-thesis.sty` dan hapus `openany` dari opsi
+`\RequirePackage{geometry}`.
+
+### Daftar pustaka tidak muncul
+
+Pastikan `src/main.tex` memiliki:
+
+```latex
+\addbibresource{refs/daftar-pustaka}
+```
+
+Dan `src/backmatter/daftar-pustaka.tex` memiliki:
+
+```latex
+\printbibliography[heading=none]
+```
+
+### Halaman kosong di antara bab
+
+Bisa terjadi karena `\openany` (setiap bab selalu mulai halaman
+baru). Jika tidak diinginkan, ganti ke `\openright` (default) di
+`\documentclass`.
+
+### Font Times New Roman tidak ditemukan
+
+Jika menggunakan XeLaTeX/LuaLaTeX, install font Times New Roman di
+sistem operasi:
+
+- macOS: sudah termasuk.
+- Windows: sudah termasuk.
+- Linux: install `ttf-mscorefonts-installer` (Debian/Ubuntu) atau
+  `liberation-fonts` (alternatif open source).
+
+### Tabel terpotong antar halaman
+
+Paket `longtable` sudah dimuat. Ganti `tabular` dengan `longtable`
+untuk tabel panjang:
+
+```latex
+\begin{longtable}{lcc}
+  \toprule
+  ...
+\end{longtable}
+```
+
+### Spasi atau indentasi tidak sesuai
+
+PPKI menentukan:
+
+- Spasi tunggal (`\singlespacing`).
+- Indentasi paragraf pertama 1 cm (`\parindent = 1cm`).
+- Tanpa spasi antar paragraf (`\parskip = 0pt`).
+
+Jika berubah, periksa apakah ada paket lain yang memodifikasi.
+Paket `setspace`, `indentfirst`, dan `parskip` sudah dikonfigurasi
+di `src/config/ipb-thesis.sty`.
+
+### Kompilasi sangat lambat
+
+Bisa karena biber memproses banyak entri. Optimalkan `.bib` dengan
+menghapus entri yang tidak dipakai, atau gunakan `latexmk` dengan
+caching.
+
+---
+
+## 7. Catatan PPKI yang Tidak Otomatis
+
+Beberapa hal tidak dapat diotomatisasi di LaTeX dan perlu perhatian
+manual saat menulis:
+
+- **Ejaan dan tata bahasa Indonesia** - tidak ada checker otomatis.
+  Gunakan alat seperti LanguageTool.
+- **Daftar singkatan dan daftar notasi** - harus dibuat manual
+  jika diperlukan. Tambahkan di Bagian Awal sesuai kebutuhan.
+- **Halaman persetujuan fisik** - di LaTeX, halaman ini hanya
+  template. Setelah dicetak, tambahkan tanda tangan asli.
+- **Lembar pengesahan** - hanya pembimbing 1, pembimbing 2, dan
+  ketua program studi. Jika ada penguji tambahan, tambahkan
+  baris baru di `src/preliminaries/lembar-persetujuan.tex`.
+- **Nomor halaman Romawi** - dimulai dari halaman setelah cover.
+  Cover dihitung sebagai halaman i tapi tidak ditampilkan.
+- **Kertas HVS vs kertas buklet** - margin sudah dikonfigurasi
+  untuk penjilidan. Saat mencetak, gunakan mode **long edge**
+  untuk duplex.
+
+---
+
+Untuk pertanyaan lain, buka
+[issue](https://github.com/raihanpka/ipb-template-latex/issues) di
+repositori.
