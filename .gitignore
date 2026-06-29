@@ -1,3 +1,7 @@
+## Build directories (Makefile output)
+/build/
+/dist/
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -328,3 +332,9 @@ TSWLatexianTemp*
 # MacOS 
 __MACOSX/
 .DS_Store
+.omo
+# Build output
+*.pdf
+
+# Build artifacts
+/build/
