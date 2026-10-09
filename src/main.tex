@@ -1,8 +1,8 @@
 % =============================================================================
 % main.tex -- Entry point Template Tugas Akhir Sarjana (S1) IPB University
 %
-% Template LaTeX ini diadaptasi dari Template Word resmi PPKI (Pedoman
-% Penulisan Karya Ilmiah) Edisi ke-4 yang diterbitkan oleh IPB University.
+% Template LaTeX ini diadaptasi dari PPTA IPB 2026 dan templat resmi
+% Skripsi Sains, Teknik, dan Kesehatan [20260812].
 %
 % Struktur:
 %   src/
@@ -25,7 +25,7 @@
 % -----------------------------------------------------------------------------
 % 1. Kelas Dokumen & Paket Utama
 % -----------------------------------------------------------------------------
-\documentclass[12pt,a4paper,twoside,openany]{book}
+\documentclass[12pt,a4paper,twoside,openright]{book}
 
 % Style utama (margins, font, headings, captions, dst.)
 \usepackage{ipb-thesis}
@@ -37,34 +37,14 @@
 \input{config/hyphenation-id}
 
 % Database referensi untuk biblatex + biber
-\addbibresource{refs/daftar-pustaka}
+\addbibresource{src/refs/daftar-pustaka.bib}
 
 % -----------------------------------------------------------------------------
-% 2. Page Styles
-%    PPKI:
-%      - Preliminary/backmatter: nomor halaman Romawi kecil, tengah atas
-%      - Bab (mainmatter):       nomor halaman Arab, sudut luar atas
+% 2. Page Styles didefinisikan di ipb-thesis.sty
+%    - Bagian awal: nomor halaman tidak ditampilkan.
+%    - Bagian utama/akhir: nomor Arab di sudut luar atas.
+%    - Halaman pembuka bab: nomor tidak ditampilkan.
 % -----------------------------------------------------------------------------
-\fancypagestyle{frontmatter}{%
-  \fancyhf{}%
-  \fancyhead[C]{\thepage}%
-  \renewcommand{\headrulewidth}{0pt}%
-  \renewcommand{\footrulewidth}{0pt}%
-}
-
-\fancypagestyle{mainmatter}{%
-  \fancyhf{}%
-  \fancyhead[RO,LE]{\thepage}%
-  \renewcommand{\headrulewidth}{0pt}%
-  \renewcommand{\footrulewidth}{0pt}%
-}
-
-\fancypagestyle{plain}{%
-  \fancyhf{}%
-  \fancyhead[RO,LE]{\thepage}%
-  \renewcommand{\headrulewidth}{0pt}%
-  \renewcommand{\footrulewidth}{0pt}%
-}
 
 % -----------------------------------------------------------------------------
 % 3. Metadata untuk hyperref
@@ -78,32 +58,53 @@
 % -----------------------------------------------------------------------------
 \begin{document}
 
+% Hyperref dimuat pada akhir preamble oleh ipb-thesis.sty agar urutan paket
+% aman; metadata diisi setelah paket tersebut tersedia.
+\hypersetup{
+  pdfauthor={\NamaPenulis},
+  pdftitle={\JudulSkripsi},
+  pdfsubject={Skripsi Sarjana IPB University -- PPTA 2026},
+  pdfkeywords={IPB, skripsi, tugas akhir, PPTA 2026}
+}
+
 \noindent\ignorespaces
 
 % -----------------------------------------------------------------------------
-% 5. BAGIAN AWAL (PRELIMINARI) -- Bagian Awal
-%    - Nomor halaman: Romawi kecil (i, ii, iii, ...), tengah atas
-%    - Margin: 3 cm semua sisi + 1 cm gutter
+% 5. BAGIAN AWAL
 % -----------------------------------------------------------------------------
-\pagenumbering{roman}
-\setcounter{page}{1}
+% Sampul serta halaman pernyataan/hak cipta tidak masuk hitungan nomor
+% preliminary pada templat resmi.
+\pagenumbering{gobble}
 \pagestyle{frontmatter}
 
 \input{preliminaries/cover}
+\cleardoublepage
 \input{preliminaries/pernyataan}
+\cleardoublepage
+
+% Hitungan Romawi dimulai dari Sorotan (i), tetapi nomornya tidak dicetak.
+\frontmatter
+\pagestyle{frontmatter}
+\input{preliminaries/sorotan}
+\clearpage
+\input{preliminaries/abstrak-grafis}
+\clearpage
+\input{abstract/abstract}
+\clearpage
+\input{preliminaries/tim-penguji}
+\clearpage
 \input{preliminaries/lembar-persetujuan}
-\input{abstract/abstract-id}
-\input{abstract/abstract-en}
+\cleardoublepage
 \input{preliminaries/prakata}
+\cleardoublepage
 \input{preliminaries/daftar-isi}
 
 % -----------------------------------------------------------------------------
 % 6. BAGIAN INTI (BAB) -- Bagian Inti / Pokok
 %    - Nomor halaman: Arab (1, 2, 3, ...), sudut luar atas
-%    - Margin: 3-3-3-4 (4 cm sisi dalam untuk penjilidan)
+%    - Margin fisik: sisi dalam 4 cm, sisi luar 3 cm, atas/bawah 3 cm
 % -----------------------------------------------------------------------------
 \mainmatter
-\setchaptermargins
 \pagestyle{mainmatter}
 
 \input{chapters/chapter-1}    % BAB I   PENDAHULUAN
@@ -113,12 +114,10 @@
 \input{chapters/chapter-5}    % BAB V   SIMPULAN DAN SARAN
 
 % -----------------------------------------------------------------------------
-% 7. BAGIAN AKHIR -- Lampiran
+% 7. BAGIAN AKHIR
 %    - Nomor halaman: Arab (lanjut), sudut luar atas
-%    - Margin kembali: 3 cm semua sisi + 1 cm gutter
 % -----------------------------------------------------------------------------
 \backmatter
-\setpreliminarymargins
 \pagestyle{mainmatter}
 
 \input{backmatter/daftar-pustaka}

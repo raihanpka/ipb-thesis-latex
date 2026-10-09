@@ -9,15 +9,15 @@ sangat kami harapkan.
 
 ### Melaporkan Masalah (Issue)
 
-Jika Anda menemukan bug, ketidaksesuaian format dengan PPKI IPB, atau
+Jika Anda menemukan bug, ketidaksesuaian format dengan PPTA IPB 2026, atau
 memiliki saran perbaikan:
 
 1. Pastikan masalah tersebut belum pernah dilaporkan dengan mencari di
-   halaman [Issues](https://github.com/raihanpka/ipb-template-latex/issues).
+   halaman [Issues](https://github.com/raihanpka/ipb-thesis-latex/issues).
 2. Gunakan template issue yang tersedia.
 3. Sertakan:
    - Versi TeX Live atau MiKTeX yang digunakan.
-   - Compiler (`pdflatex`, `xelatex`, `lualatex`).
+   - Versi LuaLaTeX yang digunakan.
    - Perintah atau langkah reproduksi.
    - Tangkapan layar atau pesan kesalahan jika ada.
 
@@ -33,8 +33,8 @@ memiliki saran perbaikan:
 4. **Pastikan** semua hal berikut terpenuhi:
    - Kompilasi sukses dengan `make build` tanpa peringatan.
    - `make validate` tidak menghasilkan kesalahan fatal.
-   - Perubahan sesuai dengan PPKI IPB Edisi ke-4 (lihat
-     `docs/Template Tugas Akhir.dotx`).
+   - Perubahan sesuai dengan PPTA IPB 2026 dan templat
+     `Skripsi Sain-Tek-Kes [20260812].dotx`.
    - Berkas baru di tempat yang tepat dan mengikuti pola penamaan
      `kebab-case`.
    - Komentar header di bagian atas setiap `.tex` baru.

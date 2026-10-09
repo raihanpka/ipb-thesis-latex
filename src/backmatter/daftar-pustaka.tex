@@ -1,22 +1,23 @@
 % =============================================================================
 % Daftar Pustaka
 %
-% PPKI Edisi ke-4: gaya author-year (Harvard) dengan format:
+% PPTA IPB 2026: Harvard nama-tahun dengan gaya CSE edisi ke-9:
 %   - In-text: (Author Year) atau (Author1 dan Author2 Year) atau
-%              (Author1 dkk. Year) untuk >2 penulis
+%              (Author1 et al. Year) untuk >2 penulis
 %   - Daftar pustaka urut alfabet, hanging indent 1 cm, periode sebagai
 %     pemisah field, tahun tanpa kurung.
-%   - Semua penulis ditulis lengkap (tidak dipotong "dkk." di daftar pustaka).
+%   - Maksimum lima penulis, lalu "et al." untuk sumber dengan >5 penulis.
+%   - DOI dicantumkan bila tersedia; sumber daring memuat tanggal akses dan URL.
 %
 % Perintah yang bisa dipakai di teks (sintaks natbib kompatibel):
 %   \citep{key}                  -> (Author Year)
-%   \citep[hal. 5]{key}          -> (Author Year, hal. 5)
+%   \citep[5]{key}               -> (Author Year:5)
 %   \citet{key}                  -> Author (Year)
 %   \citep{key1,key2}            -> (Author1 Year1; Author2 Year2)
 %   \citeauthor{key}             -> Author
 %   \citeyear{key}               -> Year
 %
-% Backend: biber (bukan bibtex). Style didefinisikan di src/config/ipb-thesis.sty.
+% Backend: biber. Style didefinisikan di src/config/ipb-thesis.sty.
 % Daftar pustaka di-deklarasikan di src/main.tex melalui \addbibresource.
 % =============================================================================
 
@@ -25,5 +26,7 @@
 
 % Cetak daftar pustaka. Heading none agar tidak ada judul tambahan
 % (judul "DAFTAR PUSTAKA" sudah ditangani oleh \chapter* di atas).
+% Baris berikut menampilkan lima contoh dari DOTX. Hapus setelah contoh
+% diganti; pada naskah akhir hanya sumber yang benar-benar diacu yang dicetak.
+\nocite{Arifin2023,Aulia2024,Brett2025,Pezzino2026,Rajam2022}
 \printbibliography[heading=none]
-

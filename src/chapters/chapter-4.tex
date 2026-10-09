@@ -1,44 +1,197 @@
 % =============================================================================
-% BAB IV  HASIL DAN PEMBAHASAN
-%
-% PPKI: Bab Hasil dan Pembahasan dapat digabung (seperti template ini) atau
-% dipisah menjadi dua bab. Pemisahan bergantung pada bidang studi atau
-% arahan pembimbing. Sajikan hasil secara sistematis dan rujuk setiap tabel
-% dan gambar dalam teks.
+% BAB IV HASIL DAN PEMBAHASAN -- teks dan contoh dari templat Sain-Tek-Kes
 % =============================================================================
 
-\chapter{HASIL DAN PEMBAHASAN}
+\chapter{HASIL DAN PEMBAHASAN (terpisah atau gabung)}
 
-Dalam penulisan hasil dan pembahasan dapat dipisah sebagai bab Hasil dan
-bab Pembahasan, atau digabung menjadi bab Hasil dan Pembahasan.
-Pemisahan atau penggabungan kedua bab ini bergantung pada bidang studi,
-atau sesuai dengan arahan pembimbing.
+Dalam penulisan hasil dan pembahasan dapat dipisah sebagai bab Hasil dan bab
+Pembahasan, atau digabung menjadi bab Hasil dan Pembahasan. Bila Hasil dan
+Pembahasan disatukan dalam satu bab, data/temuan disajikan dahulu, diberi
+penjelasan yang cukup untuk temuan yang penting, dilanjutkan dengan penafsiran,
+kemudian dengan pembahasan.
 
-% Jika ingin memisah, ganti judul bab dan buat file chapter-4-hasil.tex dan
-% chapter-4-pembahasan.tex, lalu sesuaikan src/main.tex.
-
-% -----------------------------------------------------------------------------
 \section{Hasil}
-% -----------------------------------------------------------------------------
 
-Sajikan hasil penelitian secara sistematis. Tabel dan gambar digunakan
-untuk mempermudah pembacaan data. Setiap tabel dan gambar dirujuk dalam
-teks sebelum atau sesudah kemunculannya, misalnya:
-(Tabel~\ref{tab:pisang-ambon}) atau (Gambar~\ref{fig:contoh-gambar1}).
+Hasil menampilkan data/temuan dan dapat dibagi dalam beberapa subbab sesuai
+dengan tujuan. Data dapat disajikan dengan ilustrasi dalam bentuk Tabel atau
+Gambar (peta, denah, foto, diagram). Ilustrasi harus mampu berdiri sendiri,
+artinya mudah dipahami pembaca tanpa harus merujuk teks. Tujuannya adalah
+membantu pembaca memahami data dan menarik informasi penting dengan cepat
+(\textit{storytelling with data}). Semua ilustrasi harus diletakkan
+sedekat-dekatnya dengan teks yang menyatakan keberadaannya. Perujukan pada
+ilustrasi dinyatakan di dalam paragraf sebelum tabel atau gambar. Kata
+\enquote{tabel} dan \enquote{gambar} diawali dengan huruf kapital bila diikuti
+dengan nomor. Nomor tabel atau gambar berurut sesuai dengan urutan kemunculannya
+dalam tubuh tulisan. Contohnya adalah sebagai berikut:
 
-Penulisan satuan mengikuti sistem SI. Contoh penulisan satuan dalam
-teks: kekerasan buah diukur dalam mm 50 g$^{-1}$ detik$^{-1}$
-\citep{Kochel2005}.
+\noindent\ldots{} seperti ditunjukkan pada Gambar 5.\par
+\noindent\ldots{} mendekati bentuk sigmoid (Gambar 5).\par
+\noindent\ldots{} meningkat dengan pesat (Tabel 3).\par
+\noindent\ldots{} (lihat Lampiran 1).\par
 
-% -----------------------------------------------------------------------------
+Perujukan pada ilustrasi yang tidak disertai dengan keterangan harus
+dihindari.\par
+\noindent Misalnya:\par
+\noindent \enquote{Hasilnya dapat dilihat pada Tabel 1} atau
+\enquote{Hasilnya disajikan pada Tabel 1}.\par
+\noindent Pernyataan yang lebih baik ialah\par
+\noindent \enquote{Pada Tabel 1 ditunjukkan bahwa kacang hijau lebih banyak
+memancarkan spektrum biru daripada kacang tanah}.
+
+\vspace{-4pt}
+\begin{table}[htbp]
+  \captionsetup{justification=centering,singlelinecheck=true}
+  \caption{Judul tabel biasanya pendek tanpa diakhiri tanda titik$^{\mathrm{a}}$}
+  \label{tab:contoh-struktur}
+  {\fontsize{11pt}{13pt}\selectfont
+  \renewcommand{\arraystretch}{1.15}%
+  \begin{tabular}{@{}p{3.47cm}@{}*{4}{>{\centering\arraybackslash}p{2.63cm}@{}}}
+    \toprule
+    \multirow{2}{3.47cm}{\centering\textbf{Judul kolom\newline pertama}}
+      & \multicolumn{2}{c}{\textbf{Judul kolom$^{\mathrm{b}}$}}
+      & \multicolumn{2}{c}{\textbf{Judul kolom$^{\mathrm{b}}$}} \\
+    \cmidrule(lr){2-3}\cmidrule(l){4-5}
+      & \hspace{5.2pt}\textbf{Subjudul\newline kolom}
+      & \hspace{5.2pt}\textbf{Subjudul\newline kolom}
+      & \hspace{5.2pt}\textbf{Subjudul\newline kolom}
+      & \hspace{5.2pt}\textbf{Subjudul\newline kolom} \\
+    \specialrule{\lightrulewidth}{0pt}{2pt}
+    & \multicolumn{4}{c}{[area informasi]} \\
+    Judul baris$^{\mathrm{c}}$ & & & & \\
+    \quad Subjudul baris & & & & \\
+    \quad Subjudul baris & & & & \\
+    Judul baris & & & & \\
+    \quad Subjudul baris & & & & \\
+    \quad Subjudul baris & & & & \\
+    & \multicolumn{4}{c}{[area informasi]} \\
+    \bottomrule
+  \end{tabular}
+  }
+  \ipbtablenote{$^{\mathrm{a}}$[catatan kaki] [titik] Sumber [jika ada]: xxxx
+    xxxx [titik] $^{\mathrm{b}}$[catatan kaki] xxxx xxxx [titik]
+    $^{\mathrm{c}}$[catatan kaki] xxxx xxxx [titik]}
+\end{table}
+
+\noindent Catatan kaki diketik dengan font Times New Roman 10 pt. Antara baris pertama
+catatan kaki dan garis dasar tabel diberi jarak 3 pt.
+
+\clearpage
+
+\begin{table}[H]
+  \captionsetup{format=ipbhangonehalf,justification=justified,
+    singlelinecheck=false}
+  \caption[Tingkat kekerasan dan kandungan gula buah pisang ambon pada suhu
+    simpan yang berbeda dan pemberian putresina]{Tingkat kekerasan dan
+    kandungan gula buah pisang ambon pada suhu
+    simpan yang berbeda dan pemberian putresina
+    \textbf{(Jika judul tabel lebih dari satu baris, maka baris selanjutnya
+    sejajar dengan kata pertama pada judul tabel)}}
+  \label{tab:pisang-ambon}
+  {\fontsize{11pt}{12pt}\selectfont
+  \begin{tabularx}{13.63cm}{@{}Xccc@{}}
+    \toprule
+    \multirow{2}{*}{\textbf{Perlakuan}}
+      & \multicolumn{3}{c}{\textbf{Kekerasan buah dan kandungan gula pada hari ke-}} \\
+    \cmidrule(l){2-4}
+      & \textbf{0} & \textbf{7} & \textbf{14} \\
+    \midrule
+    & \multicolumn{3}{c}{Kekerasan buah (mm 50 g$^{-1}$ detik$^{-1}$)$^{\mathrm{a}}$} \\
+    Suhu simpan & & & \\
+    \quad $15\,^{\circ}\mathrm{C}$ & 10,20$^{\mathrm{a}}$ & 13,40$^{\mathrm{a}}$ & 11,83$^{\mathrm{a}}$ \\
+    \quad $28\,^{\circ}\mathrm{C}$ & 10,64$^{\mathrm{a}}$ & 14,22$^{\mathrm{a}}$ & 88,43$^{\mathrm{b}}$ \\
+    Putresina & & & \\
+    \quad Dengan putresina & 11,07$^{\mathrm{a}}$ & 13,23$^{\mathrm{a}}$ & 21,19$^{\mathrm{a}}$ \\
+    \quad Tanpa putresina & 10,76$^{\mathrm{a}}$ & 14,40$^{\mathrm{a}}$ & 41,82$^{\mathrm{b}}$ \\
+    \midrule
+    & \multicolumn{3}{c}{Gula (\%)$^{\mathrm{a}}$} \\
+    Suhu simpan & & & \\
+    \quad $15\,^{\circ}\mathrm{C}$ & 0,38$^{\mathrm{a}}$ & 0,56$^{\mathrm{a}}$ & 0,73$^{\mathrm{a}}$ \\
+    \quad $28\,^{\circ}\mathrm{C}$ & 0,55$^{\mathrm{a}}$ & 1,82$^{\mathrm{a}}$ & 14,41$^{\mathrm{b}}$ \\
+    Putresina & & & \\
+    \quad Dengan putresina & 0,53$^{\mathrm{a}}$ & 0,87$^{\mathrm{a}}$ & 6,98$^{\mathrm{a}}$ \\
+    \quad Tanpa putresina & 0,40$^{\mathrm{a}}$ & 1,52$^{\mathrm{a}}$ & 6,91$^{\mathrm{a}}$ \\
+    \bottomrule
+  \end{tabularx}
+  }
+  \ipbtablenote{$^{\mathrm{a}}$Angka-angka pada kolom yang sama yang diikuti
+    oleh huruf yang sama tidak berbeda nyata pada taraf uji 5\% (uji selang
+    berganda Duncan).}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \vspace{0.65cm}
+  \fbox{\parbox[c][6.4cm][c]{0.92\textwidth}{\centering
+    Sisipkan diagram batang; gunakan warna dan motif yang tetap terbaca}}
+  \caption[Pemilihan warna dan motif batang pada diagram batang yang jelas
+    menunjukkan keterbacaan \textit{error bar}]{Pemilihan warna dan motif
+    batang pada diagram batang yang jelas
+    menunjukkan keterbacaan \textit{error bar}, (a) dua batang dengan penanda
+    signifikansi (*), (b) beberapa batang dengan variasi warna yang ramah buta
+    warna dan motif yang berbeda namun mudah dibaca. Penanda statistika
+    (asteriks atau huruf) dapat diletakkan langsung di atas balok. Notasi pada
+    tiap batang sudah jelas sehingga legenda tidak dicantumkan. Legenda atau
+    keterangan lain dapat dicantumkan di judul gambar. Data pada diagram adalah
+    \textit{random} dan dibuat dengan Microsoft Excel for Mac Version 16.89.}
+  \label{fig:diagram-batang}
+\end{figure}
+
+\clearpage
+
+Penempatan ilustrasi (tabel dan gambar) di dalam teks memerlukan perhatian
+khusus untuk memastikan kualitas visualisasi ilmiah, keterbacaan, dan estetika.
+Pengaturan yang tepat menjamin pembaca dapat dengan mudah menghubungkan teks
+dengan ilustrasi yang disajikan. Berikut adalah panduan umum tentang penempatan
+ilustrasi.
+
+\begin{enumerate}[label=\alph*.,leftmargin=0.75cm,labelwidth=0.5cm,
+  labelsep=0.25cm,align=left,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]
+  \item Kedekatan dengan teks rujukan: Setiap ilustrasi ditempatkan
+    sedekat mungkin setelah kalimat di dalam teks yang merujuk atau membahas
+    ilustrasi tersebut. Hal ini akan meminimalkan gangguan alur baca dan
+    memudahkan pembaca mengaitkan informasi.
+  \item Posisi peletakan ideal: Ilustrasi diletakkan di tengah
+    halaman secara horizontal, memanfaatkan ruang yang tersedia. Ilustrasi
+    diposisikan sedemikian rupa sehingga judul ilustrasi berada di satu halaman
+    yang sama. Penting juga untuk tidak meninggalkan ruang kosong setelah
+    ilustrasi dan memastikan ada teks/paragraf yang mengikutinya.
+  \item Efisiensi ruang dan orientasi: Ilustrasi disajikan dan
+    diatur agar muat dalam satu halaman. Jika diperlukan, orientasi halaman
+    bisa diubah menjadi lanskap untuk mengakomodasi ilustrasi yang lebar.
+    Untuk tabel, format yang pendek dan lebar lebih disukai daripada yang
+    panjang dan sempit. Apabila tabel dengan baris yang banyak tidak dapat
+    dihindari, judul kolom berulang (\textit{repeat header row}) bisa
+    digunakan, sehingga tiap halaman sambungan memiliki judul kolom.
+\end{enumerate}
+
+\vspace{13pt}
+
 \section{Pembahasan}
-% -----------------------------------------------------------------------------
 
-Pembahasan mengaitkan hasil penelitian dengan teori, hipotesis, dan
-hasil penelitian sebelumnya. Argumentasi penulis harus jelas dan
-didukung oleh data. Kebaruan atau temuan penting ditekankan di bagian
-ini \citep{Onlamoon2010}.
+Pembahasan merupakan interpretasi atau penjelasan atas data hasil kegiatan
+tugas akhir. Dalam pembahasan, atau penjelasan tersebut harus dikaitkan dengan
+pustaka, terutama yang mutakhir, primer, dan kredibel. Pernyataan-pernyataan
+dalam paragraf dikemas dengan baik, dimulai dari pendapat sendiri di awal
+paragraf, diikuti dengan dukungan pustaka, dan diakhiri dengan kalimat
+penyimpulan. Argumentasi dikemukakan secara singkat dan logis yang difokuskan
+untuk menjawab tujuan dan menguji hipotesis (jika ada). Argumentasi dikemukakan
+untuk menunjukkan persamaan, membahas perbedaan, dan penyebab timbulnya
+perbedaan, dikaitkan dengan teori dan temuan-temuan sebelumnya yang relevan.
+Pembahasan berupaya menunjukkan aspek-aspek baru yang ditemukan dan merupakan
+satu kesatuan. Pembahasan juga dapat mengemukakan keterbatasan dalam kegiatan
+tugas akhir yang dilaksanakan.
 
-Jangan hanya mengulang hasil; jelaskan mengapa hasil tersebut terjadi
-dan apa artinya dalam konteks bidang ilmu. Gunakan pustaka yang relevan
-untuk mendukung interpretasi.
+Terdapat tiga tingkatan kedalaman dalam pembahasan hasil penelitian, yaitu
+menunjukkan kejadian, pola, dan struktur. Dalam menunjukkan kejadian, peneliti
+hanya membaca fakta-fakta hasil penelitian/kajian yang diperoleh. Dalam
+menunjukkan pola, peneliti memperhatikan keteraturan atau kecenderungan dari
+fakta-fakta hasil penelitian/kajian. Dalam menunjukkan struktur, peneliti
+menjelaskan lebih lanjut dari pola dengan menjawab pertanyaan mengapa pola itu
+terjadi, dan faktor apa yang menyebabkan pola itu terjadi. Pembahasan dengan
+menunjukkan struktur memerlukan dukungan teori atau rujukan hasil-hasil
+penelitian/kajian terdahulu yang telah teruji secara ilmiah. Pendapat peneliti
+terdahulu yang sudah diringkas dalam bab Pendahuluan atau bab Tinjauan Pustaka
+tidak perlu diulang lagi, tetapi diacu saja seperlunya. Sebaiknya, dalam
+pembahasan juga dapat diberikan implikasi penerapan temuan baru dan segi-segi
+lain yang perlu diteliti lebih lanjut. Pembahasan diakhiri dengan kalimat
+positif, tegas, dan kuat.

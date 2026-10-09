@@ -3,7 +3,8 @@
 Panduan lengkap instalasi, penggunaan, troubleshooting, dan kustomisasi
 untuk template LaTeX Tugas Akhir Sarjana (S1) IPB University. Dokumen
 ini adalah pelengkap dari [README.md](README.md) yang hanya memuat
-informasi singkat.
+informasi singkat. Versi ini mengikuti PPTA IPB 2026 dan templat resmi
+`Skripsi Sain-Tek-Kes [20260812].dotx`.
 
 ## Daftar Isi
 
@@ -22,17 +23,17 @@ informasi singkat.
   - [2.5 Tambah Bab Baru](#25-tambah-bab-baru)
   - [2.6 Pakai Overleaf](#26-pakai-overleaf)
 - [3. Panduan Sitasi dan Daftar Pustaka](#3-panduan-sitasi-dan-daftar-pustaka)
-  - [3.1 Format PPKI](#31-format-ppki)
+  - [3.1 Format PPTA](#31-format-ppta)
   - [3.2 Perintah Sitasi](#32-perintah-sitasi)
   - [3.3 Entri BibTeX/biber](#33-entri-biber)
 - [4. Kustomisasi Lanjutan](#4-kustomisasi-lanjutan)
   - [4.1 Memisahkan Bab Hasil dan Pembahasan](#41-memisahkan-bab-hasil-dan-pembahasan)
-  - [4.2 Mengubah Compiler ke XeLaTeX atau LuaLaTeX](#42-mengubah-compiler-ke-xelatex-atau-lualatex)
+  - [4.2 Compiler dan font](#42-compiler-dan-font)
   - [4.3 Menambah Persamaan Matematika](#43-menambah-persamaan-matematika)
   - [4.4 Menambah Penyorotan Sintaks Kode](#44-menambah-penyorotan-sintaks-kode)
   - [4.5 Tabel dari CSV](#45-tabel-dari-csv)
 - [5. Troubleshooting](#5-troubleshooting)
-- [6. Catatan PPKI yang Tidak Otomatis](#6-catatan-ppki-yang-tidak-otomatis)
+- [6. Catatan PPTA yang Tidak Otomatis](#6-catatan-ppta-yang-tidak-otomatis)
 
 ---
 
@@ -114,8 +115,8 @@ source ~/.zshrc
 Verifikasi:
 
 ```
-which pdflatex latexmk biber chktex
-pdflatex --version | head -1
+which lualatex latexmk biber chktex
+lualatex --version | head -1
 biber --version
 ```
 
@@ -131,9 +132,9 @@ biber --version
 Verifikasi di Command Prompt:
 
 ```
-where pdflatex
+where lualatex
 where biber
-pdflatex --version
+lualatex --version
 biber --version
 ```
 
@@ -174,12 +175,12 @@ kecil, gunakan `texlive-latex-extra`, `texlive-latex-recommended`,
 Pastikan semua tool penting tersedia:
 
 ```
-which pdflatex latexmk biber chktex
+which lualatex latexmk biber chktex
 ```
 
 Versi minimal yang disarankan:
 
-- pdfLaTeX 3.141 atau lebih baru
+- LuaLaTeX dari TeX Live 2024/MiKTeX yang setara atau lebih baru
 - latexmk 4.70 atau lebih baru
 - biber 2.16 atau lebih baru
 - chktex 1.7 atau lebih baru (opsional, untuk `make validate`)
@@ -188,29 +189,39 @@ Versi minimal yang disarankan:
 
 ## 2. Penggunaan Template
 
-### 3.1 Isi Data Mahasiswa
+### 2.1 Isi Data Mahasiswa
 
 Buka `src/config/information.tex` dan ganti semua placeholder:
 
 ```latex
-\newcommand{\NamaPenulis}{Nama Lengkap Anda}
-\newcommand{\NamaPenulisInggris}{Your Full Name}
-\newcommand{\NIM}{A000000000}
-\newcommand{\JudulSkripsi}{Judul Skripsi Anda Maksimum Tiga Baris, Lima Belas Kata}
-\newcommand{\NamaPembimbingSatu}{Prof. Dr. Nama Pembimbing Satu, M.Sc.}
-\newcommand{\NamaPembimbingDua}{Dr. Nama Pembimbing Dua, M.Si.}
-\newcommand{\Departemen}{Departemen Ilmu Komputer}
-\newcommand{\ProgramStudiSingkat}{Ilmu Komputer}
+\newcommand{\NamaPenulis}{Nama Penulis}
+\newcommand{\NamaPenulisInggris}{Student Name}
+\newcommand{\NIM}{NIM}
+\newcommand{\JudulSkripsi}{Judul Karya Ilmiah}
+\newcommand{\NamaPembimbingSatu}{Nama Pembimbing 1}
+\newcommand{\NamaPembimbingDua}{Nama Pembimbing 2}
+\newcommand{\ProgramStudi}{Nama Program Studi}
+\newcommand{\ProgramStudiSingkat}{Nama Program Studi}
 ```
 
 `ProgramStudiSingkat` digunakan oleh Makefile untuk membentuk nama
-PDF. Pilih versi pendek yang tidak memuat kata "Departemen" atau
-"Program Studi".
+PDF. Ganti semua nilai placeholder dengan data sebenarnya sebelum naskah
+diserahkan. Pilih `ProgramStudiSingkat` tanpa awalan "Program Studi".
 
-### 3.2 Tulis Isi Skripsi
+Untuk deklarasi AI, biarkan `\MenggunakanAI` bernilai `placeholder` selama
+template masih berupa contoh. Sebelum penyerahan, ubah nilainya menjadi
+`true` atau `false`; jika bernilai `true`, isi juga `\NamaAlatAI` dan
+`\TujuanPenggunaanAI`.
 
-Edit file per bab di `src/chapters/chapter-N.tex`. Setiap bab sudah
-dilengkapi teks panduan PPKI IPB; ganti dengan isi sebenarnya.
+### 2.2 Tulis Isi Skripsi
+
+Edit file per bab di `src/chapters/chapter-N.tex`. Bagian awal berada di
+`src/preliminaries/` dan abstrak berada di `src/abstract/`. Seluruhnya sudah
+dilengkapi teks panduan PPTA 2026; ganti dengan isi sebenarnya.
+
+Isi sorotan di `src/preliminaries/sorotan.tex`. Untuk abstrak grafis, isi
+judulnya dan atur path gambar melalui `\BerkasAbstrakGrafis` di
+`src/config/information.tex`.
 
 Untuk menulis subbab baru dalam sebuah bab:
 
@@ -227,7 +238,7 @@ Isi rumusan masalah...
 Penomoran subbab otomatis mengikuti bab: `1.1`, `1.2`, `2.1`, dst.
 Sub-subbab menggunakan `1.1.1`, `1.1.2`, dst.
 
-### 3.3 Bangun PDF
+### 2.3 Bangun PDF
 
 Pilih salah satu:
 
@@ -236,7 +247,8 @@ make              # Linux atau macOS
 make.bat          # Windows
 ```
 
-Output di `dist/Skripsi_<ProgramStudiSingkat>_<Nama>_<Bulan Tahun>.pdf`.
+Output berada di `dist/Skripsi_<ProgramStudiSingkat>_<Nama>_<Bulan Tahun>.pdf`
+dan disalin ke `main.pdf` untuk kompatibilitas struktur upstream.
 
 Untuk terus memantau perubahan:
 
@@ -246,7 +258,7 @@ make watch
 
 Setiap 2 detik template akan di-rebuild. Tekan Ctrl+C untuk berhenti.
 
-### 3.4 Tambah Referensi
+### 2.4 Tambah Referensi
 
 Tambahkan entri ke `src/refs/daftar-pustaka.bib`:
 
@@ -273,7 +285,7 @@ Sitasi di teks:
 
 Setelah menambah entri, jalankan ulang `make build`.
 
-### 3.5 Tambah Bab Baru
+### 2.5 Tambah Bab Baru
 
 Buat file baru di `src/chapters/`, misalnya `chapter-6.tex`:
 
@@ -290,33 +302,33 @@ Lalu tambahkan di `src/main.tex` pada bagian `\mainmatter`:
 \input{chapters/chapter-6}    % BAB VI  BAB BARU
 ```
 
-### 3.6 Pakai Overleaf
+### 2.6 Pakai Overleaf
 
 1. Buka <https://www.overleaf.com>.
 2. Buat proyek baru > "Upload Project" > pilih folder hasil clone
    dari GitHub.
-3. Compiler otomatis: `pdfLaTeX`. Template ini tidak butuh
-   konfigurasi tambahan di Overleaf karena biblatex dan biber sudah
-   built-in.
+3. Pilih `LuaLaTeX` sebagai compiler. BibLaTeX dan biber sudah tersedia di
+   Overleaf.
 
 Atau gunakan tautan langsung: <https://www.overleaf.com/read/zcgrrzkfgkcw>.
 
 ---
 
-## 4. Panduan Sitasi dan Daftar Pustaka
+## 3. Panduan Sitasi dan Daftar Pustaka
 
-### 4.1 Format PPKI
+### 3.1 Format PPTA
 
-Sesuai PPKI Edisi ke-4:
+Sesuai PPTA IPB 2026 dan CSE edisi ke-9:
 
-- **In-text**: (Author Year) atau (Author1 dan Author2 Year) atau
-  (Author1 dkk. Year) untuk lebih dari 2 penulis.
+- **Dalam teks**: (Penulis Tahun), dua nama dihubungkan "dan", dan tiga
+  penulis atau lebih menggunakan nama pertama diikuti *et al.*.
 - **Daftar pustaka**:
   - Urut alfabet berdasarkan nama belakang penulis pertama.
   - Hanging indent 1 cm.
   - Pemisah field menggunakan **titik** (bukan koma).
   - Tahun **tanpa kurung**.
-  - Semua penulis ditulis lengkap (tidak disingkat "dkk.").
+  - Maksimum lima penulis ditulis lengkap; lebih dari lima menampilkan lima
+    nama pertama diikuti *et al.*.
   - Judul jurnal dan volume dalam cetak miring.
   - DOI dicantumkan bila ada.
 
@@ -333,7 +345,7 @@ Kochel, T. J., D. M. Watts, A. S. Gozalo, D. F. Ewing, K. R. Porter
     191(6): 1000-1004. doi:10.1086/427511.
 ```
 
-### 4.2 Perintah Sitasi
+### 3.2 Perintah Sitasi
 
 Template ini menggunakan biblatex dengan emulasi natbib. Perintah
 natbib standar tetap bekerja:
@@ -342,13 +354,13 @@ natbib standar tetap bekerja:
 |---|---|
 | `\citep{Smith2024}` | (Smith dan Doe 2024) |
 | `\citet{Smith2024}` | Smith dan Doe (2024) |
-| `\citep[hal. 5]{Smith2024}` | (Smith dan Doe 2024, hal. 5) |
+| `\citep[5]{Smith2024}` | (Smith dan Doe 2024:5) |
 | `\citep{Smith2024,Jones2020}` | (Smith dan Doe 2024; Jones 2020) |
 | `\citeauthor{Smith2024}` | Smith dan Doe |
 | `\citeyear{Smith2024}` | 2024 |
 | `\citealp{Smith2024}` | Smith dan Doe, 2024 |
 
-### 4.3 Entri BibTeX/biber
+### 3.3 Entri BibTeX/biber
 
 Tipe entri yang umum dipakai:
 
@@ -365,16 +377,16 @@ Field wajib:
 - `title`
 - `year`
 
-Field khusus PPKI:
+Field yang relevan untuk lokalisasi PPTA:
 
 - `langid = {english}` untuk sumber berbahasa Inggris (memengaruhi
   ejaan di daftar pustaka).
 
 ---
 
-## 5. Kustomisasi Lanjutan
+## 4. Kustomisasi Lanjutan
 
-### 5.1 Memisahkan Bab Hasil dan Pembahasan
+### 4.1 Memisahkan Bab Hasil dan Pembahasan
 
 Jika pembimbing meminta bab Hasil dan Pembahasan dipisah, edit
 `src/main.tex` di bagian `\mainmatter`:
@@ -395,25 +407,13 @@ Buat file `chapter-4-hasil.tex`:
 % ... isi bab Hasil
 ```
 
-### 5.2 Mengubah Compiler ke XeLaTeX atau LuaLaTeX
+### 4.2 Compiler dan font
 
-Buka `src/config/ipb-thesis.sty`. Cari baris:
+Template sudah dikonfigurasi untuk LuaLaTeX dan Times New Roman. Jika font
+tersebut tidak tersedia, TeX Gyre Termes digunakan sebagai fallback. Gunakan
+`make build` dan jangan mengganti compiler ke pdfLaTeX.
 
-```latex
-\RequirePackage{mathptmx}
-```
-
-Ganti dengan:
-
-```latex
-\RequirePackage{fontspec}
-\setmainfont{Times New Roman}
-```
-
-Pastikan font Times New Roman tersedia di sistem operasi. Compile
-dengan `xelatex` atau `lualatex`.
-
-### 5.3 Menambah Persamaan Matematika
+### 4.3 Menambah Persamaan Matematika
 
 Paket `amsmath` dan `amssymb` sudah dimuat. Contoh:
 
@@ -430,9 +430,10 @@ Rujuk di teks:
 \ldots sesuai Persamaan~\ref{eq:persamaan-kuadratik}.
 ```
 
-### 5.4 Menambah Penyorotan Sintaks Kode
+### 4.4 Menambah Penyorotan Sintaks Kode
 
-Paket `listings` sudah dimuat. Contoh:
+Untuk menggunakan `listings`, tambahkan paket tersebut di
+`src/config/ipb-thesis.sty`. Contoh:
 
 ```latex
 \begin{lstlisting}[language=Python, caption={Kode program Python}, label={lst:contoh}]
@@ -448,7 +449,7 @@ Atau gunakan `minted` (memerlukan Pygments). Tambahkan di
 \RequirePackage{minted}
 ```
 
-### 5.5 Tabel dari CSV
+### 4.5 Tabel dari CSV
 
 Tambahkan di `src/config/ipb-thesis.sty`:
 
@@ -471,7 +472,7 @@ Simpan `data.csv` di `src/resources/`.
 
 ---
 
-## 6. Troubleshooting
+## 5. Troubleshooting
 
 ### Error: "File `biblatex.sty' not found"
 
@@ -497,16 +498,16 @@ Biblatex butuh biber untuk memproses `.bib`. Compile dengan
 `latexmk` yang otomatis menjalankan biber:
 
 ```
-latexmk -pdf src/main.tex
+make build
 ```
 
 Atau manual:
 
 ```
-pdflatex src/main.tex
-biber src/main.tex
-pdflatex src/main.tex
-pdflatex src/main.tex
+lualatex -jobname=tmp -output-directory=build src/main.tex
+biber build/tmp
+lualatex -jobname=tmp -output-directory=build src/main.tex
+lualatex -jobname=tmp -output-directory=build src/main.tex
 ```
 
 ### Error: "Package keyval Error: openany undefined"
@@ -520,7 +521,7 @@ pdflatex src/main.tex
 Pastikan `src/main.tex` memiliki:
 
 ```latex
-\addbibresource{refs/daftar-pustaka}
+\addbibresource{src/refs/daftar-pustaka.bib}
 ```
 
 Dan `src/backmatter/daftar-pustaka.tex` memiliki:
@@ -531,9 +532,9 @@ Dan `src/backmatter/daftar-pustaka.tex` memiliki:
 
 ### Halaman kosong di antara bab
 
-Bisa terjadi karena `\openany` (setiap bab selalu mulai halaman
-baru). Jika tidak diinginkan, ganti ke `\openright` (default) di
-`\documentclass`.
+Halaman kosong merupakan konsekuensi `openright`: bab dan bagian besar dimulai
+pada halaman ganjil sesuai templat resmi. Jangan menghapusnya dari dokumen
+final tanpa persetujuan pengelola program studi.
 
 ### Font Times New Roman tidak ditemukan
 
@@ -559,7 +560,7 @@ untuk tabel panjang:
 
 ### Spasi atau indentasi tidak sesuai
 
-PPKI menentukan:
+PPTA menentukan:
 
 - Spasi tunggal (`\singlespacing`).
 - Indentasi paragraf pertama 1 cm (`\parindent = 1cm`).
@@ -577,7 +578,7 @@ caching.
 
 ---
 
-## 7. Catatan PPKI yang Tidak Otomatis
+## 6. Catatan PPTA yang Tidak Otomatis
 
 Beberapa hal tidak dapat diotomatisasi di LaTeX dan perlu perhatian
 manual saat menulis:
@@ -588,11 +589,10 @@ manual saat menulis:
   jika diperlukan. Tambahkan di Bagian Awal sesuai kebutuhan.
 - **Halaman persetujuan fisik** - di LaTeX, halaman ini hanya
   template. Setelah dicetak, tambahkan tanda tangan asli.
-- **Lembar pengesahan** - hanya pembimbing 1, pembimbing 2, dan
-  ketua program studi. Jika ada penguji tambahan, tambahkan
-  baris baru di `src/preliminaries/lembar-persetujuan.tex`.
-- **Nomor halaman Romawi** - dimulai dari halaman setelah cover.
-  Cover dihitung sebagai halaman i tapi tidak ditampilkan.
+- **Lembar pengesahan** - memuat pembimbing, ketua program studi, dan pejabat
+  kedua bila disyaratkan. Atur datanya di `src/config/information.tex`.
+- **Nomor halaman Romawi** - hitungan dimulai dari Sorotan, tetapi nomornya
+  tidak dicetak pada bagian awal.
 - **Kertas HVS vs kertas buklet** - margin sudah dikonfigurasi
   untuk penjilidan. Saat mencetak, gunakan mode **long edge**
   untuk duplex.
@@ -600,5 +600,5 @@ manual saat menulis:
 ---
 
 Untuk pertanyaan lain, buka
-[issue](https://github.com/raihanpka/ipb-template-latex/issues) di
+[issue](https://github.com/raihanpka/ipb-thesis-latex/issues) di
 repositori.

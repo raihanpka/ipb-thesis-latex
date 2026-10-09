@@ -4,7 +4,7 @@
 # Fitur:
 #   - Deteksi OS otomatis (macOS, Linux, Windows) dan distribusi TeX
 #   - Auto-install paket yang hilang via package manager OS
-#   - Build PDF otomatis dengan biber (bukan bibtex)
+#   - Build PDF otomatis dengan LuaLaTeX dan biber
 #   - Auto-clean semua file sementara (.aux, .log, .bbl, .bcf, dll)
 #   - Auto-clean direktori build/ pada setiap clean
 #   - Auto-clean direktori dist/ pada distclean
@@ -28,8 +28,10 @@ PROJECT  := ipb-template-latex
 SRC      := src/main.tex
 INFOFILE := src/config/information.tex
 BUILDDIR := build
+DISTDIR  := dist
+ROOTPDF  := main.pdf
 SPINNER  := $(CURDIR)/scripts/spinner.sh
-EXTRACT  := python3 $(CURDIR)/scripts/extract-info.py
+EXTRACT  := python3 "$(CURDIR)/scripts/extract-info.py"
 
 # -----------------------------------------------------------------------------
 # Kode warna (untuk printf)
@@ -74,27 +76,28 @@ endif
 # -----------------------------------------------------------------------------
 # Deteksi distribusi TeX
 # -----------------------------------------------------------------------------
-PDFLATEX_BIN := $(shell which pdflatex 2>/dev/null)
+LUALATEX_BIN := $(shell which lualatex 2>/dev/null)
+LATEXMK_BIN  := $(shell which latexmk 2>/dev/null)
 BIBER_BIN    := $(shell which biber 2>/dev/null)
 CHKTeX_BIN   := $(shell which chktex 2>/dev/null)
 
 TEX_DIST := none
 ifeq ($(OS),macos)
-    ifneq ($(PDFLATEX_BIN),)
-        ifneq (,$(findstring basic,$(PDFLATEX_BIN)))
+    ifneq ($(LUALATEX_BIN),)
+        ifneq (,$(findstring basic,$(LUALATEX_BIN)))
             TEX_DIST := basictex
-        else ifneq (,$(findstring texlive,$(PDFLATEX_BIN)))
+        else ifneq (,$(findstring texlive,$(LUALATEX_BIN)))
             TEX_DIST := mactex
         endif
     endif
 endif
 ifeq ($(OS),linux)
-    ifneq ($(PDFLATEX_BIN),)
+    ifneq ($(LUALATEX_BIN),)
         TEX_DIST := texlive
     endif
 endif
 ifeq ($(OS),windows)
-    ifneq ($(PDFLATEX_BIN),)
+    ifneq ($(LUALATEX_BIN),)
         TEX_DIST := miktex
     endif
 endif
@@ -109,9 +112,9 @@ export BIBINPUTS := .:src/:build/:
 # -----------------------------------------------------------------------------
 # Ekstrak metadata dari src/config/information.tex
 # -----------------------------------------------------------------------------
-DEPARTEMEN := $(shell $(EXTRACT) Departemen $(INFOFILE) 2>/dev/null)
-NAMA       := $(shell $(EXTRACT) NamaPenulis $(INFOFILE) 2>/dev/null)
-DEPT_SHORT := $(shell $(EXTRACT) ProgramStudiSingkat $(INFOFILE) 2>/dev/null)
+DEPARTEMEN := $(shell $(EXTRACT) Departemen "$(INFOFILE)" 2>/dev/null)
+NAMA       := $(shell $(EXTRACT) NamaPenulis "$(INFOFILE)" 2>/dev/null)
+DEPT_SHORT := $(shell $(EXTRACT) ProgramStudiSingkat "$(INFOFILE)" 2>/dev/null)
 DATE       := $(shell date +"%b %Y")
 
 # Fallback: jika ProgramStudiSingkat kosong, turunkan dari Departemen
@@ -125,7 +128,7 @@ NAMA_FILE := $(shell echo "$(NAMA)" | tr ' ' '_' 2>/dev/null)
 DATE_FILE := $(shell echo "$(DATE)" | tr ' ' '_' 2>/dev/null)
 
 OUT_NAME := Skripsi_$(DEPT_FILE)_$(NAMA_FILE)_$(DATE_FILE)
-TARGET   := ./$(OUT_NAME).pdf
+TARGET   := $(DISTDIR)/$(OUT_NAME).pdf
 
 # Pola file sementara LaTeX yang harus dibersihkan
 LATEX_TEMP := *.aux *.log *.toc *.lof *.lot *.fls *.out *.bbl *.blg \
@@ -173,7 +176,7 @@ doctor:
 	@printf "  Package mgr  : ${C}$(PKG_MGR)${NC}\n"
 	@printf "  TeX dist     : ${C}$(TEX_DIST)${NC}\n\n"
 	@printf "  Tool yang dibutuhkan:\n"
-	@for tool in pdflatex latexmk biber chktex bibtex; do \
+	@for tool in lualatex latexmk biber chktex; do \
 	    if command -v $$tool >/dev/null 2>&1; then \
 	        v=$$($$tool --version 2>&1 | head -1); \
 	        printf "    ${G}OK${NC}    %-10s %s\n" "$$tool" "$$v"; \
@@ -182,7 +185,7 @@ doctor:
 	    fi; \
 	done
 	@printf "\n"
-	@if [ -z "$(PDFLATEX_BIN)" ]; then \
+	@if [ -z "$(LUALATEX_BIN)" ] || [ -z "$(LATEXMK_BIN)" ] || [ -z "$(BIBER_BIN)" ]; then \
 	    printf "  ${Y}::${NC} TeX belum terinstall. Jalankan: ${G}make install${NC}\n\n"; \
 	else \
 	    printf "  ${G}::${NC} Semua tool sudah tersedia.\n\n"; \
@@ -199,22 +202,22 @@ ifeq ($(OS),macos)
 	    printf "  Install Homebrew dulu dari ${C}https://brew.sh/${NC}\n"; \
 	    exit 1; \
 	fi
-	@if [ -z "$(PDFLATEX_BIN)" ]; then \
+	@if [ -z "$(LUALATEX_BIN)" ]; then \
 	    printf "  ${Y}::${NC} Install BasicTeX (hemat storage)...\n"; \
 	    brew install --cask basictex; \
 	    sudo tlmgr update --self; \
 	    $(SPINNER) "Install paket tambahan" sudo tlmgr install \
 	        biblatex biber chktex titlesec tocloft fancyhdr \
 	        caption booktabs enumitem hanging multirow longtable \
-	        csquotes microtype texlive-latex-extra texlive-fonts-extra \
-	        texlive-lang-other texlive-bibtex-extra; \
+	        csquotes microtype fontspec unicode-math xurl totalcount \
+	        emptypage iftex etoolbox; \
 	    sudo mktexlsr; \
 	elif [ "$(TEX_DIST)" = "basictex" ]; then \
 	    $(SPINNER) "Install paket tambahan" sudo tlmgr install \
 	        biblatex biber chktex titlesec tocloft fancyhdr \
 	        caption booktabs enumitem hanging multirow longtable \
-	        csquotes microtype texlive-latex-extra texlive-fonts-extra \
-	        texlive-lang-other texlive-bibtex-extra; \
+	        csquotes microtype fontspec unicode-math xurl totalcount \
+	        emptypage iftex etoolbox; \
 	    sudo mktexlsr; \
 	else \
 	    printf "  ${G}OK${NC}    TeX sudah terinstall (MacTeX, paket lengkap).\n"; \
@@ -254,39 +257,21 @@ endif
 # Build PDF
 # =============================================================================
 build: $(TARGET)
+	@cp -f $(TARGET) $(ROOTPDF)
+	@printf "  ${G}OK${NC}    ${C}$(ROOTPDF)${NC}\n"
 
-$(TARGET): $(SRC) $(shell find src -name '*.tex' -type f) $(wildcard src/refs/*.bib) $(INFOFILE) Makefile
-	@if test -z "$(PDFLATEX_BIN)"; then \
-	    echo "  FAIL  pdflatex tidak ditemukan"; \
+$(TARGET): $(SRC) $(shell find src -type f) $(INFOFILE) Makefile
+	@if test -z "$(LUALATEX_BIN)" || test -z "$(LATEXMK_BIN)" || test -z "$(BIBER_BIN)"; then \
+	    echo "  FAIL  lualatex, latexmk, dan biber wajib tersedia"; \
 	    exit 1; \
 	fi
 	@echo "  :: Building $(OUT_NAME).pdf"
-	@mkdir -p $(BUILDDIR)
-	@rm -f $(BUILDDIR)/tmp.aux $(BUILDDIR)/tmp.bbl $(BUILDDIR)/tmp.bcf
-	@echo "  [1/4] pdflatex"
-	@TEXINPUTS=".:src/:src/config/:build/:" pdflatex -interaction=nonstopmode \
-	  -output-directory=$(BUILDDIR) -jobname=tmp src/main.tex >/dev/null 2>&1 || true
-	@echo "  [2/4] bibtex"
-	@cd $(BUILDDIR) && BIBINPUTS="..:../src:." bibtex tmp >/dev/null 2>&1 || true
-	@echo "  [3/4] pdflatex"
-	@TEXINPUTS=".:src/:src/config/:build/:" pdflatex -interaction=nonstopmode \
-	  -output-directory=$(BUILDDIR) -jobname=tmp src/main.tex >/dev/null 2>&1 || true
-	@echo "  [4/4] pdflatex"
-	@TEXINPUTS=".:src/:src/config/:build/:" pdflatex -interaction=nonstopmode \
-	  -output-directory=$(BUILDDIR) -jobname=tmp src/main.tex >/dev/null 2>&1 || true
+	@mkdir -p $(BUILDDIR) $(DISTDIR)
+	@TEXINPUTS=".:src/:src/config/:build/:" BIBINPUTS=".:src/:src/refs/:build/:" \
+	  latexmk -lualatex -file-line-error -halt-on-error -interaction=nonstopmode \
+	  -output-directory=$(BUILDDIR) -jobname=tmp $(SRC)
 	@cp -f $(BUILDDIR)/tmp.pdf $(TARGET)
-	@make -s _autoclean
-	@echo "  OK    $(TARGET)"
 	@printf "  ${G}OK${NC}    ${C}$(TARGET)${NC}\n"
-
-# Target internal: auto-clean setelah build
-_autoclean:
-	@rm -f $(BUILDDIR)/*.aux $(BUILDDIR)/*.log $(BUILDDIR)/*.toc
-	@rm -f $(BUILDDIR)/*.lof $(BUILDDIR)/*.lot $(BUILDDIR)/*.fls
-	@rm -f $(BUILDDIR)/*.out $(BUILDDIR)/*.bbl $(BUILDDIR)/*.blg
-	@rm -f $(BUILDDIR)/*.bcf $(BUILDDIR)/*.run.xml $(BUILDDIR)/*.fdb_latexmk
-	@rm -f $(BUILDDIR)/*.synctex.gz $(BUILDDIR)/*.idx $(BUILDDIR)/*.ind
-	@rm -f $(LATEX_TEMP)
 
 # =============================================================================
 # Clean: hapus file sementara + direktori build/
@@ -315,7 +300,7 @@ validate:
 	    exit 1; \
 	fi
 	@printf "  ${Y}::${NC} Validating LaTeX source with chktex...\n"
-	@chktex -q -l .chktexrc -r -I $(SRC) || true
+	@chktex -q -l .chktexrc -I $(SRC)
 	@printf "  ${G}OK${NC}    Validasi selesai\n"
 
 # =============================================================================

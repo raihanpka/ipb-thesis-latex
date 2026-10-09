@@ -1,54 +1,88 @@
 % =============================================================================
 % information.tex
 %
-% Satu sumber kebenaran (single source of truth) untuk data penulis, skripsi,
-% dan institusi. Semua data di sini dipakai di cover, abstrak, lembar
-% persetujuan, prakata, dan halaman-halaman lain yang membutuhkan.
+% Satu sumber kebenaran untuk data penulis, skripsi, institusi, pernyataan AI,
+% pengesahan, dan komponen awal lain sesuai PPTA IPB 2026.
 %
 % Pemuatan: \input{config/information} dari src/main.tex.
 % =============================================================================
 
 % --- Data Penulis ---
-\newcommand{\NamaPenulis}{Nama Lengkap}
-\newcommand{\NamaPenulisInggris}{Full Name}
-\newcommand{\NIM}{A000000000}
-\newcommand{\TempatLahir}{Kota}
-\newcommand{\TanggalLahir}{1 Januari 2000}
-\newcommand{\EmailPenulis}{nama@apps.ipb.ac.id}
+% Nilai bawaan mengikuti teks placeholder pada templat resmi. Ganti seluruh
+% placeholder ini dengan data sebenarnya sebelum naskah diserahkan.
+\newcommand{\NamaPenulis}{Nama Penulis}
+\newcommand{\NamaPenulisInggris}{Student Name}
+\newcommand{\NIM}{NIM}
+\newcommand{\TempatLahir}{Kota \ldots{}}
+\newcommand{\TanggalLahir}{tanggal bulan tahun}
+\newcommand{\EmailPenulis}{alamat.surel@apps.ipb.ac.id}
 
 % --- Data Pembimbing ---
-\newcommand{\NamaPembimbingSatu}{Prof. Dr. Nama Pembimbing Satu, M.Sc.}
-\newcommand{\NIPPembimbingSatu}{196001011985031001}
-\newcommand{\NamaPembimbingDua}{Dr. Nama Pembimbing Dua, M.Si.}
-\newcommand{\NIPPembimbingDua}{197001011998021001}
+\newcommand{\NamaPembimbingSatu}{Nama Pembimbing 1}
+\newcommand{\NIPPembimbingSatu}{}
+\newcommand{\NamaPembimbingDua}{Nama Pembimbing 2}
+\newcommand{\NIPPembimbingDua}{}
 
-% --- Data Penguji (opsional, untuk halaman persetujuan) ---
-\newcommand{\NamaPengujiSatu}{Dr. Nama Penguji Satu, M.Si.}
-\newcommand{\NamaPengujiDua}{Dr. Nama Penguji Dua, M.Si.}
+% --- Data Penguji ---
+\newcommand{\NamaPengujiSatu}{Nama Lengkap dan Gelar}
+\newcommand{\NamaPengujiDua}{Nama Lengkap dan Gelar}
+
+% --- Data Pengesahan ---
+\newcommand{\NamaKetuaProgramStudi}{Nama Lengkap dan Gelar}
+\newcommand{\NIPKetuaProgramStudi}{}
+% Pejabat kedua bersifat opsional. Isi true bila blok ini perlu ditampilkan.
+\newcommand{\TampilkanPejabatKedua}{true}
+\newcommand{\JabatanPejabatKedua}{Ketua Departemen/Wakil Dekan Bidang Akademik dan Kemahasiswaan}
+\newcommand{\NamaPejabatKedua}{Nama Lengkap dan Gelar}
+\newcommand{\NIPPejabatKedua}{}
+% Biarkan kosong agar templat hanya menampilkan label dan ruang pengisian.
+\newcommand{\TanggalUjian}{}
+\newcommand{\TanggalLulus}{}
 
 % --- Data Skripsi ---
 \newcommand{\JudulSkripsi}{%
-  Judul Skripsi Maksimum Tiga Baris, Lima Belas Kata Tidak Termasuk
-  Kata Depan dan Kata Sambung
+  Judul Karya Ilmiah Maksimum Tiga Baris, Lima Belas Kata Tidak Termasuk
+  Kata Depan dan Kata Sambung%
 }
 \newcommand{\JudulSkripsiInggris}{%
-  Title of Thesis Maximum Three Lines, Fifteen Words Excluding Articles
-  and Conjunctions
+  Title of Final Assignment%
 }
-\newcommand{\KataKunci}{kata kunci satu, kata kunci dua, kata kunci tiga, kata kunci empat, kata kunci lima}
-\newcommand{\Keywords}{keyword one, keyword two, keyword three, keyword four, keyword five}
+\newcommand{\KataKunci}{ditulis dalam bahasa Indonesia, disusun berdasarkan abjad, maksimum lima kata atau frasa}
+\newcommand{\Keywords}{written in English, arranged alphabetically, maximum five words or phrases}
+
+% Judul abstrak grafis maksimum enam kata, tidak termasuk kata depan/sambung.
+\newcommand{\JudulAbstrakGrafis}{%
+  Judul Abstrak Grafis Maksimum Enam Kata, Tidak Termasuk Kata Depan dan Kata Sambung}
+\newcommand{\JudulAbstrakGrafisInggris}{%
+  Graphical Abstract Title Maximum Six Words, Excluding Prepositions and Conjunctions}
+% Isi dengan path berkas gambar untuk mengganti kotak placeholder.
+\newcommand{\BerkasAbstrakGrafis}{}
+\newcommand{\BerkasAbstrakGrafisInggris}{}
+
+% --- Deklarasi penggunaan AI ---
+% Nilai placeholder mempertahankan pilihan [menggunakan/tidak menggunakan]
+% seperti pada DOTX. Ganti dengan true atau false setelah menentukan pilihan.
+\newcommand{\MenggunakanAI}{placeholder}
+\newcommand{\NamaAlatAI}{[nama alat/layanan]}
+\newcommand{\TujuanPenggunaanAI}{[alasan]}
+
+% --- Gelar dan sumber dana ---
+\newcommand{\GelarSarjana}{sarjana/sarjana terapan \ldots{}}
+% Kosongkan bila penelitian tidak memperoleh pendanaan khusus.
+\newcommand{\SumberDana}{}
 
 % --- Data Institusi ---
-\newcommand{\Departemen}{Departemen Ilmu Komputer}
-\newcommand{\ProgramStudi}{Program Studi S-1 Ilmu Komputer}
-\newcommand{\ProgramStudiSingkat}{Ilmu Komputer}
-\newcommand{\Fakultas}{Fakultas Matematika dan Ilmu Pengetahuan Alam}
+\newcommand{\Departemen}{Nama Departemen}
+\newcommand{\ProgramStudi}{Nama Program Studi}
+\newcommand{\ProgramStudiSingkat}{Nama Program Studi}
+\newcommand{\Fakultas}{Fakultas/Sekolah}
 \newcommand{\Universitas}{Institut Pertanian Bogor}
 \newcommand{\KotaUniversitas}{Bogor}
-\newcommand{\Tahun}{2026}
+\newcommand{\Tahun}{20XX}
 
 % --- Data Waktu Pelaksanaan (untuk prakata) ---
-\newcommand{\BulanMulaiPenelitian}{Januari}
-\newcommand{\TahunMulaiPenelitian}{2026}
-\newcommand{\BulanSelesaiPenelitian}{Juni}
-\newcommand{\TahunSelesaiPenelitian}{2026}
+\newcommand{\BulanMulaiPenelitian}{\ldots{}}
+\newcommand{\TahunMulaiPenelitian}{20XX}
+\newcommand{\BulanSelesaiPenelitian}{\ldots{}}
+\newcommand{\TahunSelesaiPenelitian}{20XX}
+\newcommand{\BulanTahunDokumen}{Bulan Tahun}

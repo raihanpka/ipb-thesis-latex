@@ -1,51 +1,58 @@
 % =============================================================================
-% Lembar Persetujuan (Lembar Pengesahan)
-%
-% PPKI: Berisi judul, nama, NIM, tanda tangan pembimbing, dan diketahui
-% oleh Ketua Program Studi atau Ketua Departemen.
+% Halaman Pengesahan -- PPTA IPB 2026
 % =============================================================================
 
-\chapter*{LEMBAR PERSETUJUAN}
-
-\vspace{1cm}
+\thispagestyle{empty}
 
 \noindent
-{\fontsize{12pt}{14pt}\selectfont
-\begin{tabular}{@{}p{3.0cm}p{0.3cm}p{0.62\textwidth}@{}}
-Judul  & : & \JudulSkripsi \\
-Nama   & : & \NamaPenulis \\
-NIM    & : & \NIM \\
+\begin{tabular}{@{}p{2.5cm}@{\hspace{0.2cm}}p{0.2cm}@{\hspace{0.2cm}}p{0.68\textwidth}@{}}
+Judul Skripsi & : & \JudulSkripsi \\
+Nama          & : & \NamaPenulis \\
+NIM           & : & \NIM
 \end{tabular}
-}
 
-\vspace{1.5cm}
+\vspace{2.5cm}
 
-\noindent\textbf{Disetujui oleh}
+\begin{center}
+\hspace*{1cm}Disetujui oleh
+\end{center}
+
+\vspace{1.1cm}
+
+\noindent
+\begin{tabular}{p{8.08cm}>{\raggedleft\arraybackslash}p{4.08cm}}
+Pembimbing 1:\newline
+\NamaPembimbingSatu & \mbox{}\newline\rule{4cm}{0.4pt} \\[1.95cm]
+Pembimbing 2:\newline
+\NamaPembimbingDua & \mbox{}\newline\rule{4cm}{0.4pt}
+\end{tabular}
+
+\vspace{1.6cm}
+
+\begin{center}
+\hspace*{1cm}Diketahui oleh
+\end{center}
 
 \vspace{0.5cm}
 
 \noindent
-\begin{tabular}{@{}p{0.4\textwidth}@{\hspace{0.15\textwidth}}p{0.4\textwidth}@{}}
-Pembimbing 1: & Pembimbing 2: \\[3.5cm]
-\underline{\hspace{0.35\textwidth}} & \underline{\hspace{0.35\textwidth}} \\
-\NamaPembimbingSatu & \NamaPembimbingDua \\
-NIP \NIPPembimbingSatu & NIP \NIPPembimbingDua \\
+\begin{tabular}{p{8.08cm}>{\raggedleft\arraybackslash}p{4.08cm}}
+Ketua Program Studi:\newline
+\NamaKetuaProgramStudi\newline
+NIP \NIPKetuaProgramStudi & \mbox{}\newline\rule{4cm}{0.4pt}
+\ifdefstring{\TampilkanPejabatKedua}{true}{\\[2\baselineskip]
+dan atau (pilih salah satu)\newline
+\JabatanPejabatKedua:\newline
+\NamaPejabatKedua\newline
+NIP \NIPPejabatKedua & \mbox{}\newline\mbox{}\newline\mbox{}\newline
+  \rule{4cm}{0.4pt}}{}
 \end{tabular}
 
-\vspace{1.5cm}
-
-\noindent\textbf{Diketahui oleh}
-
-\vspace{0.5cm}
+\vfill
 
 \noindent
-\begin{tabular}{@{}p{0.4\textwidth}@{\hspace{0.15\textwidth}}p{0.4\textwidth}@{}}
-Ketua Program Studi: & \\[3.5cm]
-\underline{\hspace{0.35\textwidth}} & \\
-\NamaPengujiSatu & \\
-NIP \NIPPembimbingSatu & \\
-\end{tabular}
-
-\vspace{2cm}
-
-\noindent Tanggal Lulus: \dotfill
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll@{}}
+Tanggal Ujian: \TanggalUjian & Tanggal Lulus: \TanggalLulus
+\end{tabular*}
+\par
+\vspace*{9pt}

@@ -24,11 +24,10 @@ SOFTWARE.
 
 CATATAN ATRIBUSI
 
-Template Word asli PPKI (Pedoman Penulisan Karya Ilmiah) Edisi ke-4
-merupakan milik IPB University dan digunakan sebagai acuan adaptasi
-tanpa afiliasi resmi. Pengaturan format (margin, font, penomoran,
-caption) pada template LaTeX ini diadaptasi dari dokumen Template
-Tugas Akhir.dotx dan Templat tugas akhir S1.docx yang berada di
-direktori docs/ pada repositori ini. Struktur proyek dan pola
-Makefile terinspirasi dari repositori petrabarus/if-itb-latex dengan
-penyesuaian untuk standar PPKI IPB.
+Pedoman Penyajian Tugas Akhir dan templat Word resmi merupakan milik
+IPB University dan digunakan sebagai acuan adaptasi tanpa afiliasi resmi.
+Dokumen PPKI lama di direktori docs/ dipertahankan sebagai arsip struktur
+upstream. Dokumen sumber PPTA 2026 yang digunakan untuk migrasi disimpan secara
+lokal dan tidak termasuk dalam distribusi repositori ini.
+Struktur proyek dan pola Makefile terinspirasi dari repositori
+petrabarus/if-itb-latex dengan penyesuaian untuk standar PPTA IPB.
