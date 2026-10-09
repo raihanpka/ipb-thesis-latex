@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="id-ID">
   <info>
-    <title>Institut Pertanian Bogor: Pedoman Penulisan Karya Ilmiah Edisi ke-4 (Indonesian)</title>
+    <title>Institut Pertanian Bogor: Pedoman Penyajian Tugas Akhir 2026 (Indonesian)</title>
     <id>http://www.zotero.org/styles/institut-pertanian-bogor</id>
     <link href="http://www.zotero.org/styles/institut-pertanian-bogor" rel="self"/>
     <link href="http://www.zotero.org/styles/apa" rel="template"/>
@@ -17,7 +17,8 @@
     </author>
     <category citation-format="author-date"/>
     <category field="science"/>
-    <updated>2020-12-14T16:00:00+07:00</updated>
+    <summary>IPB PPTA 2026 author-date style based on CSE 9th edition.</summary>
+    <updated>2026-10-09T00:00:00+07:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="id">
@@ -461,7 +462,7 @@
       <text variable="locator" prefix=":"/>
     </layout>
   </citation>
-  <bibliography hanging-indent="true" et-al-min="11" et-al-use-first="10" entry-spacing="0">
+  <bibliography hanging-indent="true" et-al-min="6" et-al-use-first="5" entry-spacing="0">
     <sort>
       <key macro="author"/>
       <key macro="year-date"/>

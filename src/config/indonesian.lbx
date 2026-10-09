@@ -1,0 +1,50 @@
+% =============================================================================
+% Lokalisasi biblatex Bahasa Indonesia untuk PPTA IPB 2026.
+% Biblatex belum mendistribusikan indonesian.lbx pada semua versi TeX Live.
+% =============================================================================
+
+\ProvidesFile{indonesian.lbx}[2026/10/09 v1.0 Indonesian biblatex localization]
+
+% Format tanggal dan istilah yang tidak perlu diterjemahkan mengikuti English.
+\InheritBibliographyExtras{english}
+\DeclareBibliographyExtras{%
+  % PPTA menuliskan tanggal akses sebagai tahun-bulan-hari.
+  \protected\def\mkbibdatelong#1#2#3{%
+    \iffieldundef{#1}
+      {}
+      {\dateeraprintpre{#1}\stripzeros{\thefield{#1}}%
+       \iffieldundef{#2}{}{\space}}%
+    \iffieldundef{#2}
+      {}
+      {\mkbibmonth{\thefield{#2}}%
+       \iffieldundef{#3}{}{\space}}%
+    \iffieldundef{#3}{}{\stripzeros{\thefield{#3}}}}%
+}
+\InheritBibliographyStrings{english}
+
+\DeclareBibliographyStrings{%
+  inherit   = {english},
+  and       = {{dan}{dan}},
+  andothers = {{\mkbibemph{et\addabbrvspace al\adddot}}
+               {\mkbibemph{et\addabbrvspace al\adddot}}},
+  editor    = {{editor}{editor}},
+  editors   = {{editor}{editor}},
+  in        = {{Di dalam}{Di dalam}},
+  page      = {{halaman}{hlm}},
+  pages     = {{halaman}{hlm}},
+  urlseen   = {{diakses}{diakses}},
+  january   = {{Jan}{Jan}},
+  february  = {{Feb}{Feb}},
+  march     = {{Mar}{Mar}},
+  april     = {{Apr}{Apr}},
+  may       = {{Mei}{Mei}},
+  june      = {{Jun}{Jun}},
+  july      = {{Jul}{Jul}},
+  august    = {{Agu}{Agu}},
+  september = {{Sep}{Sep}},
+  october   = {{Okt}{Okt}},
+  november  = {{Nov}{Nov}},
+  december  = {{Des}{Des}}
+}
+
+\endinput

@@ -1,331 +1,492 @@
 % =============================================================================
 % ipb-thesis.sty
 %
-% Style file untuk Template Tugas Akhir Sarjana (S1) IPB University.
-% Disesuaikan dengan PPKI (Pedoman Penulisan Karya Ilmiah) Edisi ke-4.
-%
-% Konten file ini hanya berisi paket dan aturan format; tidak ada \begin{document}.
-% Pemuatan dilakukan oleh src/main.tex.
+% Style utama Skripsi Sains, Teknik, dan Kesehatan IPB University.
+% Disesuaikan dengan Pedoman Penyajian Tugas Akhir (PPTA) IPB 2026 dan
+% templat resmi "Skripsi Sain-Tek-Kes [20260812]".
 % =============================================================================
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{ipb-thesis}[2026/06/29 v2.0 IPB Thesis Style (PPKI Edisi 4)]
+\ProvidesPackage{ipb-thesis}[2026/10/09 v3.0 IPB PPTA 2026]
 
 % -----------------------------------------------------------------------------
-% 1. Encoding & Bahasa
+% 1. Mesin, bahasa, dan font
 % -----------------------------------------------------------------------------
-\RequirePackage[T1]{fontenc}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage[main=indonesian, english, provide=*]{babel}
+\RequirePackage{iftex}
+\ifPDFTeX
+  % Fallback kompatibilitas untuk instalasi lama. Hasil paling dekat dengan
+  % templat resmi diperoleh dengan LuaLaTeX atau XeLaTeX.
+  \RequirePackage[T1]{fontenc}
+  \RequirePackage[utf8]{inputenc}
+  \RequirePackage{newtxtext}
+  \RequirePackage{newtxmath}
+  \PackageWarningNoLine{ipb-thesis}{Gunakan LuaLaTeX agar Times New Roman asli dapat dipakai}
+\else
+  \RequirePackage{fontspec}
+  \RequirePackage{unicode-math}
+  \IfFontExistsTF{Times New Roman}{%
+    \setmainfont{Times New Roman}[Ligatures=TeX]
+  }{%
+    \setmainfont{TeX Gyre Termes}[Ligatures=TeX]
+    \PackageWarningNoLine{ipb-thesis}{Times New Roman tidak ditemukan; memakai TeX Gyre Termes}
+  }
+  \setmathfont{TeX Gyre Termes Math}
+\fi
+\RequirePackage[main=indonesian,english,provide=*]{babel}
 
 % -----------------------------------------------------------------------------
-% 2. Font Times New Roman 12pt
+% 2. Kertas, margin, spasi, dan paragraf
 % -----------------------------------------------------------------------------
-\RequirePackage{mathptmx}
-
-% -----------------------------------------------------------------------------
-% 3. Ukuran Halaman & Margin
-% -----------------------------------------------------------------------------
-\RequirePackage[a4paper,
-  twoside,
+\RequirePackage[
+  a4paper,
+  inner=4cm,
+  outer=3cm,
   top=3cm,
   bottom=3cm,
-  inner=3cm,
-  outer=3cm,
-  bindingoffset=1cm,
   headheight=15pt,
-  headsep=20pt,
+  headsep=12pt,
   footskip=30pt
 ]{geometry}
 
-% -----------------------------------------------------------------------------
-% 4. Spasi & Indentasi Paragraf
-% -----------------------------------------------------------------------------
 \RequirePackage{setspace}
-\singlespacing
+% Word memakai line spacing "single" sekitar 13,8 pt untuk Times New Roman
+% 12 pt, sedikit lebih rapat daripada baseline baku kelas book.
+\setstretch{0.956}
+\raggedbottom
 \RequirePackage{indentfirst}
 \setlength{\parindent}{1cm}
 \setlength{\parskip}{0pt}
+\tolerance=5000
+\setlength{\emergencystretch}{5em}
+% Templat Word tidak mengaktifkan pemenggalan kata otomatis.
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
 
 \setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
 \setlength{\intextsep}{8pt plus 2pt minus 2pt}
 \setlength{\floatsep}{8pt plus 2pt minus 2pt}
 
 % -----------------------------------------------------------------------------
-% 5. Header & Footer (fancyhdr)
+% 3. Header, footer, dan halaman kosong
 % -----------------------------------------------------------------------------
 \RequirePackage{fancyhdr}
+\RequirePackage{emptypage}
+
+\fancypagestyle{frontmatter}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{mainmatter}{%
+  \fancyhf{}%
+  \fancyhead[RO,LE]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+% Halaman pertama bab/bagian tidak menampilkan nomor halaman.
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
 
 % -----------------------------------------------------------------------------
-% 6. Format Judul Bab & Subbab (titlesec)
+% 4. Judul bab dan subbab
 % -----------------------------------------------------------------------------
 \RequirePackage{titlesec}
 
-% Chapter: 14pt bold center, "I  PENDAHULUAN"
 \titleformat{\chapter}[block]
   {\normalfont\fontsize{14pt}{17pt}\selectfont\bfseries\centering}
-  {\thechapter\hspace{1.5em}}
-  {\hspace{1.5em}}
-  {\MakeUppercase}
-  []
+  {\thechapter}
+  {16pt}
+  {}
 
 \titlespacing*{\chapter}{0pt}{-15pt}{24pt}
 
-% Section (subbab): 12pt bold left
 \titleformat{\section}[hang]
   {\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries}
   {\thesection}
-  {1em}
+  {0.6em}
   {}
-  []
 
-\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titlespacing*{\section}{0pt}{6pt}{0pt}
 
-% Subsection (sub-subbab): 12pt tidak tebal
+% Sub-subbab tidak dicetak tebal, tetapi tetap bernomor sampai tingkat ketiga.
 \titleformat{\subsection}[hang]
   {\normalfont\fontsize{12pt}{14pt}\selectfont}
   {\thesubsection}
-  {1em}
+  {0.6em}
   {}
-  []
 
-\titlespacing*{\subsection}{0pt}{6pt}{3pt}
+\titlespacing*{\subsection}{0.5cm}{6pt}{0pt}
 
 \titleformat{\subsubsection}[hang]
-  {\normalfont\fontsize{12pt}{14pt}\selectfont\bfseries}
-  {\thesubsubsection}
-  {1em}
+  {\normalfont\fontsize{12pt}{14pt}\selectfont}
   {}
-  []
+  {0pt}
+  {}
 
-\titlespacing*{\subsubsection}{0pt}{6pt}{3pt}
+\titlespacing*{\subsubsection}{0.5cm}{6pt}{0pt}
 
-% -----------------------------------------------------------------------------
-% 7. Penomoran
-% -----------------------------------------------------------------------------
+% Daftar isi berhenti pada subbab meskipun sub-subbab tetap bernomor.
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{1}
 \renewcommand{\thechapter}{\Roman{chapter}}
-\renewcommand{\thesection}{\thechapter.\arabic{section}}
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
-\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
 
+% -----------------------------------------------------------------------------
+% 5. Caption dan penomoran ilustrasi
+% -----------------------------------------------------------------------------
+\RequirePackage{caption}
 \RequirePackage{chngcntr}
 \counterwithout{figure}{chapter}
 \counterwithout{table}{chapter}
 
-% -----------------------------------------------------------------------------
-% 8. Caption
-% -----------------------------------------------------------------------------
-\RequirePackage{caption}
-
-\DeclareCaptionFormat{ipb}{#1#2#3\par}
 \DeclareCaptionLabelFormat{ipblabel}{#1~#2}
-
+% DOTX memakai inden gantung tetap (bukan selebar label): 2 cm untuk gambar
+% dan 1,5 cm untuk contoh tabel panjang.
+\DeclareCaptionFormat{ipbhangtwo}{%
+  \hangindent=2cm\hangafter=1 \makebox[2cm][l]{#1#2}#3\par}
+\DeclareCaptionFormat{ipbhangonehalf}{%
+  \hangindent=1.5cm\hangafter=1 \makebox[1.5cm][l]{#1#2}#3\par}
 \captionsetup{
-  format        = hang,
-  labelformat   = ipblabel,
-  labelsep      = space,
-  font          = {normalsize},
-  labelfont     = {},
-  textfont      = {},
-  justification = justified,
-  singlelinecheck = false
+  format=hang,
+  labelformat=ipblabel,
+  labelsep=space,
+  font=normalsize,
+  labelfont={},
+  textfont={},
+  justification=justified,
+  singlelinecheck=false,
+  skip=3pt
 }
-
 \captionsetup[figure]{
-  name         = Gambar,
-  position     = below,
-  justification = justified,
-  singlelinecheck = true
+  name=Gambar,
+  position=below,
+  format=ipbhangtwo,
+  justification=justified,
+  singlelinecheck=false,
+  skip=8.35pt
 }
-
 \captionsetup[table]{
-  name         = Tabel,
-  position     = above
-}
-
-\newcounter{lampiran}
-\renewcommand{\thelampiran}{\arabic{lampiran}}
-\newcommand{\captionlampiran}[1]{%
-  \refstepcounter{lampiran}%
-  \par\noindent\hangindent=5.6em
-  \makebox[5.4em][l]{\textbf{Lampiran \thelampiran}}#1\par
+  name=Tabel,
+  position=above,
+  justification=justified
 }
 
 % -----------------------------------------------------------------------------
-% 9. Daftar Isi, Tabel, Gambar (tocloft)
+% 6. Daftar isi, daftar ilustrasi, dan daftar lampiran
 % -----------------------------------------------------------------------------
 \RequirePackage{tocloft}
+\RequirePackage{totalcount}
+\RequirePackage{etoolbox}
 
 \renewcommand{\cfttoctitlefont}{\hfill\fontsize{14pt}{17pt}\selectfont\bfseries}
 \renewcommand{\cftaftertoctitle}{\hfill}
-\renewcommand{\cftlottitlefont}{\hfill\fontsize{14pt}{17pt}\selectfont\bfseries}
-\renewcommand{\cftafterlottitle}{\hfill}
-\renewcommand{\cftloftitlefont}{\hfill\fontsize{14pt}{17pt}\selectfont\bfseries}
-\renewcommand{\cftafterloftitle}{\hfill}
-
 \renewcommand{\cftchapfont}{\normalfont}
 \renewcommand{\cftchappagefont}{\normalfont}
-\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftchapleader}{\hfill}
+\renewcommand{\cftsecleader}{\hfill}
+\setlength{\cftbeforetoctitleskip}{-15pt}
+\setlength{\cftaftertoctitleskip}{18pt}
 \setlength{\cftchapindent}{0pt}
-\setlength{\cftsecindent}{1.5em}
-\setlength{\cftsubsecindent}{3.5em}
-\setlength{\cftbeforechapskip}{0pt}
+\setlength{\cftchapnumwidth}{1.8em}
+\setlength{\cftsecindent}{0.7cm}
+\setlength{\cftsecnumwidth}{1.42cm}
+\setlength{\cfttabindent}{-0.21cm}
+\setlength{\cfttabnumwidth}{0.85cm}
+\setlength{\cftfigindent}{-0.21cm}
+\setlength{\cftfignumwidth}{0.85cm}
+\renewcommand{\cfttableader}{\hfill}
+\renewcommand{\cftfigleader}{\hfill}
+\renewcommand{\cfttabafterpnum}{}
+\renewcommand{\cftfigafterpnum}{}
+\setlength{\cftbeforechapskip}{6pt}
 \setlength{\cftbeforesecskip}{0pt}
 \renewcommand{\cftchapaftersnum}{\enspace}
 
+\newcounter{lampiran}
+\renewcommand{\thelampiran}{\arabic{lampiran}}
+\DeclareTotalCounter{figure}
+\DeclareTotalCounter{table}
+\DeclareTotalCounter{lampiran}
+
+\makeatletter
+% Nomor halaman pada daftar ilustrasi berakhir 0,42 cm sebelum batas kanan,
+% sesuai tab stop kanan pada DOTX.
+\renewcommand{\cfttabfillnum}[1]{%
+  {\cfttableader}\nobreak
+  \makebox[2.55em][r]{\cfttabpagefont #1\hspace{0.42cm}}\par
+}
+\renewcommand{\cftfigfillnum}[1]{%
+  {\cftfigleader}\nobreak
+  \makebox[2.55em][r]{\cftfigpagefont #1\hspace{0.42cm}}\par
+}
+\newcommand*{\l@lampiran}[2]{%
+  \begingroup
+  \def\@dotsep{10000}% daftar resmi tidak memakai dot leader
+  \@dottedtocline{1}{-0.21cm}{0.85cm}{#1}{#2\hspace{0.42cm}}%
+  \endgroup
+}
+
+% Versi daftar tanpa \chapter*, sehingga ketiga daftar dapat berbagi halaman.
+\newcommand{\ipblistheading}[3][12pt]{%
+  \par\vspace{17pt}%
+  {\centering\fontsize{14pt}{17pt}\selectfont\bfseries #2\par}%
+  {\centering\fontsize{12pt}{14pt}\selectfont\color{red} #3\par}%
+  \vspace{#1}%
+}
+\newcommand{\ipblistoftables}{%
+  \ipblistheading[16pt]{DAFTAR TABEL}{(jika tabel hanya satu tidak perlu dibuat daftar)}%
+  \begingroup\cftsetrmarg{3.55em}\@starttoc{lot}\endgroup
+}
+\newcommand{\ipblistoffigures}{%
+  \ipblistheading[14pt]{DAFTAR GAMBAR}{(jika gambar hanya satu tidak perlu dibuat daftar)}%
+  \begingroup
+    \cftsetrmarg{3.55em}%
+    % book menambahkan 10 pt antarbab ke berkas .lof; DOTX tidak.
+    \let\addvspace\@gobble
+    \vspace{10pt}% pertahankan jarak awal daftar
+    \@starttoc{lof}%
+    \vspace{10pt}% pertahankan jarak akhir sebelum bagian berikutnya
+  \endgroup
+}
+\newcommand{\ipblistofappendices}{%
+  \ipblistheading[26.5pt]{DAFTAR LAMPIRAN}{(jika lampiran hanya satu tidak perlu dibuat daftar)}%
+  \begingroup
+    \cftsetrmarg{3.55em}\cftsetpnumwidth{2.55em}%
+    \@starttoc{loa}%
+  \endgroup
+}
+\makeatother
+
+\newcommand{\captionlampiran}[1]{%
+  \refstepcounter{lampiran}%
+  \addcontentsline{loa}{lampiran}{\protect\numberline{\thelampiran}#1}%
+  \par\noindent\hangindent=2cm\hangafter=1
+  \makebox[2cm][l]{Lampiran \thelampiran}\kern1.5pt #1\par
+}
+\newcommand{\captionlampirancentered}[1]{%
+  \refstepcounter{lampiran}%
+  \addcontentsline{loa}{lampiran}{\protect\numberline{\thelampiran}#1}%
+  \par{\centering Lampiran \thelampiran\enspace #1\par}%
+}
+
 % -----------------------------------------------------------------------------
-% 10. Tabel
+% 7. Tabel, gambar, matematika, dan daftar
 % -----------------------------------------------------------------------------
+\RequirePackage{graphicx}
+\RequirePackage{float}
 \RequirePackage{booktabs}
 \RequirePackage{array}
 \RequirePackage{tabularx}
 \RequirePackage{multirow}
 \RequirePackage{longtable}
+\RequirePackage{enumitem}
+\RequirePackage{amsmath}
+\ifPDFTeX\RequirePackage{amssymb}\fi
 
-% -----------------------------------------------------------------------------
-% 11. Gambar
-% -----------------------------------------------------------------------------
-\RequirePackage{graphicx}
-\RequirePackage{float}
 \AddToHook{env/table/begin}{\centering}
 \AddToHook{env/figure/begin}{\centering}
 
-% -----------------------------------------------------------------------------
-% 12. Matematika
-% -----------------------------------------------------------------------------
-\RequirePackage{amsmath}
-\RequirePackage{amssymb}
+\setlist[enumerate,1]{
+  label=\arabic*.,leftmargin=0.75cm,labelwidth=0.5cm,labelsep=0.25cm,
+  align=left,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
+\setlist[enumerate,2]{
+  label=\alph*.,leftmargin=0.75cm,labelwidth=0.5cm,labelsep=0.25cm,
+  align=left,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
+
+% Paragraf isi sub-subbab menjorok 0,5 cm sebagai satu blok, sementara inden
+% baris pertamanya tetap 1 cm seperti gaya "Paragraf subsubab" pada DOTX.
+\newenvironment{ipbsubsubcontent}{%
+  \par\begingroup
+  \setlength{\leftskip}{0.5cm}%
+  \setlength{\parindent}{1cm}%
+  \ignorespaces
+}{%
+  \par\endgroup
+}
 
 % -----------------------------------------------------------------------------
-% 13. Sitasi & Daftar Pustaka (biblatex)
+% 8. Sitasi dan daftar pustaka: Harvard nama-tahun, gaya CSE edisi ke-9
 % -----------------------------------------------------------------------------
-\RequirePackage[backend=bibtex,
+% Tetapkan gaya kutip secara eksplisit karena csquotes belum menyediakan
+% gaya bernama "indonesian" pada semua distribusi TeX Live.
+\RequirePackage[style=english]{csquotes}
+\RequirePackage[
+  backend=biber,
   style=authoryear,
   natbib=true,
-  language=english,
+  sorting=nyt,
   sortcites=true,
-  date=year,
+  language=english,
+  autolang=none,
   giveninits=true,
-  uniquename=init,
+  uniquename=false,
   uniquelist=false,
-  isbn=false,
-  doi=false,
-  url=false,
-  eprint=false,
   maxcitenames=2,
   mincitenames=1,
-  maxbibnames=99,
-  minbibnames=1
+  maxbibnames=5,
+  minbibnames=5,
+  isbn=false,
+  doi=true,
+  url=true,
+  urldate=long,
+  eprint=false
 ]{biblatex}
 
-% --- String Indonesia (CSL Pak Auriza) ---
-\DefineBibliographyStrings{english}{%
-  and          = {dan},%
-  andothers    = {et al\adddot},%
-  editor       = {penyunting},%
-  editors      = {penyunting},%
-  byeditor     = {diedit oleh},%
-  bytranslator = {diterjemahkan oleh},%
-  in           = {Di dalam},%
-  page         = {hlm},%
-  pages        = {hlm}%
-}
-
-% --- Format nama: "Baez J" ---
 \renewcommand*{\revsdnamepunct}{\addspace}
 \renewcommand*{\bibinitperiod}{}
-\renewcommand*{\multinamedelim}{\addcomma\space}
-
-% --- finalnamedelim: pustaka tanpa "dan", in-text pakai "dan" ---
+\renewcommand*{\bibinitdelim}{}
+\DeclareNameAlias{sortname}{family-given}
+\DeclareNameAlias{default}{family-given}
+\DeclareDelimFormat{multinamedelim}{\addcomma\space}
+\DeclareDelimFormat{finalnamedelim}{\addspace dan\space}
 \DeclareDelimFormat[bib]{finalnamedelim}{\addcomma\space}
-\DeclareDelimFormat{finalnamedelim}{%
-  \ifnum\value{liststop}>2
-    \finalandcomma
-  \fi
-  \addspace dan \addspace
+\DeclareDelimFormat[bib]{andothersdelim}{\addcomma\space}
+\DeclareDelimFormat[parencite,cite,textcite]{nameyeardelim}{\addspace}
+\DeclareDelimFormat[parencite,cite,textcite]{postnotedelim}{\addcolon}
+\DeclareDelimFormat{multicitedelim}{\addsemicolon\space}
+
+\DeclareFieldFormat{titlecase}{#1}
+\DeclareFieldFormat[article,incollection,inproceedings]{title}{#1}
+\DeclareFieldFormat{journaltitle}{\mkbibemph{#1}}
+\DeclareFieldFormat{volume}{#1}
+\DeclareFieldFormat{pages}{#1}
+\DeclareFieldFormat{doi}{doi\addcolon\nolinkurl{#1}}
+\DeclareFieldFormat{url}{\url{#1}}
+\DeclareFieldFormat{urldate}{\mkbibbrackets{diakses\space#1}}
+\DeclareFieldFormat{postnote}{#1}
+
+\newbibmacro*{ipb:author}{%
+  \ifnameundef{author}
+    {\ifnameundef{editor}{}{\printnames{editor}\setunit{\addcomma\space}\printtext{editor}}}
+    {\printnames{author}}%
+}
+\newbibmacro*{ipb:year}{%
+  \iffieldundef{year}
+    {\printtext{[tahun tidak diketahui]}}
+    {\printfield{year}}%
+}
+\newbibmacro*{ipb:doi-or-url}{%
+  \iffieldundef{doi}
+    {\iffieldundef{url}{}{\printurldate\setunit{\addperiod\space}\printfield{url}}}
+    {\printfield{doi}}%
 }
 
-\renewcommand*{\compcitedelim}{\multicitedelim}
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}\usebibmacro{begentry}%
+  \usebibmacro{ipb:author}\setunit{\addperiod\space}%
+  \usebibmacro{ipb:year}\setunit{\addperiod\space}%
+  \printfield{title}\setunit{\addperiod\space}%
+  \printfield{journaltitle}\setunit{\addperiod\space}%
+  \printfield{volume}%
+  \iffieldundef{number}{}{\printtext[parens]{\printfield{number}}}%
+  \iffieldundef{pages}{}{\setunit{\addcolon}\printfield{pages}}%
+  \setunit{\addperiod\space}\usebibmacro{ipb:doi-or-url}%
+  \usebibmacro{finentry}%
+}
 
-% --- Tahun tanpa kurung ---
-\renewbibmacro*{issue+date}{%
-  \printfield{issue}%
-  \setunit*{\addspace}%
-  \printfield{labelyear}%
-  \newunit}
+\DeclareBibliographyDriver{book}{%
+  \usebibmacro{bibindex}\usebibmacro{begentry}%
+  \usebibmacro{ipb:author}\setunit{\addperiod\space}%
+  \usebibmacro{ipb:year}\setunit{\addperiod\space}%
+  \printfield{title}\setunit{\addperiod\space}%
+  \printfield{edition}\setunit{\addperiod\space}%
+  \printlist{publisher}\setunit{\addperiod\space}%
+  \usebibmacro{ipb:doi-or-url}%
+  \usebibmacro{finentry}%
+}
 
-% --- Separator periode ---
-\renewcommand*{\labelnamepunct}{\addperiod\space}
-\ifdefined\labeldatepunct
-  \renewcommand*{\labeldatepunct}{\addperiod\space}
-\fi
-\ifdefined\revcompnamepunct
-  \renewcommand*{\revcompnamepunct}{\addperiod\space}
-\fi
+\DeclareBibliographyDriver{online}{%
+  \usebibmacro{bibindex}\usebibmacro{begentry}%
+  \usebibmacro{ipb:author}\setunit{\addperiod\space}%
+  \usebibmacro{ipb:year}\setunit{\addperiod\space}%
+  \printfield{title}\setunit{\addperiod\space}%
+  \printurldate\setunit{\addperiod\space}%
+  \printfield{url}%
+  \usebibmacro{finentry}%
+}
 
-% --- In-text (Author Year) tanpa koma ---
-\DeclareDelimFormat[parencite]{nameyeardelim}{\addspace}
-\DeclareDelimFormat[cite]{nameyeardelim}{\addspace}
-\DeclareDelimFormat[textcite]{nameyeardelim}{\addspace}
-\DeclareDelimFormat[bib]{nameyeardelim}{\addspace}
+\DeclareBibliographyDriver{thesis}{%
+  \usebibmacro{bibindex}\usebibmacro{begentry}%
+  \usebibmacro{ipb:author}\setunit{\addperiod\space}%
+  \usebibmacro{ipb:year}\setunit{\addperiod\space}%
+  \printfield{title}\setunit{\addspace}%
+  \printtext[brackets]{\printfield{type}}\setunit{\addperiod\space}%
+  \printlist{location}\setunit{\addcolon\space}%
+  \printlist{institution}%
+  \usebibmacro{finentry}%
+}
+\DeclareBibliographyAlias{mastersthesis}{thesis}
+\DeclareBibliographyAlias{phdthesis}{thesis}
 
-% --- Format jurnal ---
-\DeclareFieldFormat[article]{title}{#1}
-\DeclareFieldFormat[article]{journaltitle}{\textit{#1}}
-\DeclareFieldFormat[article]{volume}{\textit{#1}}
-\DeclareFieldFormat[article]{pages}{#1}
-\DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
+\DeclareBibliographyDriver{incollection}{%
+  \usebibmacro{bibindex}\usebibmacro{begentry}%
+  \usebibmacro{ipb:author}\setunit{\addperiod\space}%
+  \usebibmacro{ipb:year}\setunit{\addperiod\space}%
+  \printfield{title}\setunit{\addperiod\space}%
+  \printtext{Di dalam\addcolon\space}%
+  \printnames{editor}\setunit{\addcomma\space}\printtext{editor}%
+  \setunit{\addperiod\space}\printfield{booktitle}%
+  \setunit{\addperiod\space}\printlist{publisher}%
+  \iffieldundef{pages}{}{\setunit{\addperiod\space}\printtext{hlm\space}\printfield{pages}}%
+  \usebibmacro{finentry}%
+}
+\DeclareBibliographyAlias{inbook}{incollection}
+\DeclareBibliographyAlias{inproceedings}{incollection}
 
-% --- PPKI: tanpa spasi antar entri + hanging indent 1cm ---
 \setlength{\bibitemsep}{0pt}
 \setlength{\bibhang}{1cm}
 
-\AtEveryBibitem{%
-  \clearlist{location}%
-  \clearfield{month}%
-  \clearfield{langid}%
-}
-
 % -----------------------------------------------------------------------------
-% 14. Paket Pendukung
+% 9. Paket pendukung dan perintah bantu
 % -----------------------------------------------------------------------------
 \RequirePackage{microtype}
 \RequirePackage{xcolor}
-\RequirePackage{url}
-\RequirePackage{enumitem}
+\RequirePackage{xurl}
+\urlstyle{same}
 \RequirePackage{hanging}
-\RequirePackage{csquotes}
-
-% -----------------------------------------------------------------------------
-% 15. Perintah Bantu
-% -----------------------------------------------------------------------------
-\newcommand{\setchaptermargins}{%
-  \newgeometry{top=3cm, bottom=3cm, inner=4cm, outer=3cm, bindingoffset=0cm,
-    headheight=12pt, headsep=20pt}%
-}
-
-\newcommand{\setpreliminarymargins}{%
-  \newgeometry{top=3cm, bottom=3cm, inner=3cm, outer=3cm, bindingoffset=1cm}%
-}
-
-\newcommand{\chapterbreak}{\cleardoublepage}
 
 \newcommand{\ipbtablenote}[1]{%
-  \par\vspace{2pt}\noindent{\footnotesize #1}%
+  \par\vspace{3pt}\noindent{\raggedright\fontsize{10pt}{12pt}\selectfont #1\par}%
+}
+\newcommand{\ipbfigurenote}[1]{%
+  \par\vspace{3pt}\noindent{\raggedright\fontsize{10pt}{12pt}\selectfont #1\par}%
 }
 
-\newcommand{\ipbfigurenote}[1]{%
-  \par\vspace{2pt}\noindent{\footnotesize #1}%
+\newcommand{\ipbgraphicplaceholder}[2][0.8\textwidth]{%
+  \fbox{\parbox[c][4cm][c]{#1}{\centering #2}}%
 }
+
+% Judul bagian awal tanpa perilaku page break bawaan \chapter*.
+\newcommand{\ipbprelimheading}[1]{%
+  \thispagestyle{empty}%
+  {\centering\fontsize{14pt}{17pt}\selectfont\bfseries
+   \MakeUppercase{#1}\par}%
+  \vspace{12pt}%
+}
+
+% Judul kedua pada halaman awal, misalnya ABSTRACT dan HIGHLIGHTS.
+\newcommand{\ipbprelimsubheading}[1]{%
+  \par\vspace{12pt}%
+  {\centering\fontsize{14pt}{17pt}\selectfont\bfseries #1\par}%
+  \vspace{12pt}%
+}
+
+% Nama lama dipertahankan agar dokumen pengguna versi 2 tetap dapat dikompilasi.
+\newcommand{\setchaptermargins}{}
+\newcommand{\setpreliminarymargins}{}
+\newcommand{\chapterbreak}{\cleardoublepage}
 
 \AtEndPreamble{%
   \RequirePackage[
-    colorlinks=false,
-    hidelinks,
-    pdfauthor={\@author},
-    pdftitle={\@title},
-    pdfsubject={Skripsi Sarjana (S1) IPB University},
-    pdfkeywords={IPB, skripsi, tugas akhir, PPKI}
+    unicode=true,
+    hypertexnames=false,
+    hidelinks
   ]{hyperref}%
 }
 

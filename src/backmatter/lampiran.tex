@@ -1,13 +1,21 @@
 % =============================================================================
 % Lampiran
 %
-% PPKI: Setiap lampiran di halaman baru. Caption lampiran menggunakan
+% PPTA 2026: Diawali halaman pemisah. Setiap lampiran di halaman baru.
+% Caption lampiran menggunakan
 % format "Lampiran N  Judul" dengan hanging indent. Counter lampiran
 % terpisah dari counter chapter dan figure/table.
 % =============================================================================
 
-\chapter*{LAMPIRAN}
+\cleardoublepage
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+{\fontsize{14pt}{17pt}\selectfont\bfseries LAMPIRAN}
+\end{center}
 \addcontentsline{toc}{chapter}{LAMPIRAN}
+\vspace*{\fill}
+\clearpage
 
 % -----------------------------------------------------------------------------
 % Lampiran 1
@@ -16,53 +24,63 @@
   kimia tanah dari 78 contoh tanah di Kebun Percobaan Ciheuleut}
 \label{lamp:tanah}
 
-\vspace{4pt}
+\vspace{9.5pt}
 
-\begin{center}
-\begin{tabular}{lcc}
+{\centering
+\fontsize{11pt}{12.65pt}\selectfont
+\renewcommand{\arraystretch}{1}%
+\begin{tabular}{p{4.52cm}>{\centering\arraybackslash}p{3.66cm}>{\centering\arraybackslash}p{4.55cm}}
   \toprule
-  Sifat
-    & Rata-rata
-    & Simpangan baku \\
+  \multicolumn{1}{c}{\textbf{Sifat}}
+    & \textbf{Rata-rata}
+    & \textbf{Simpangan baku} \\
   \midrule
-  Pasir (\%)                        & 47.66 & 23.81 \\
-  Lempung (\%)                      & 21.80 & 11.94 \\
-  Liat (\%)                         & 30.72 & 18.09 \\
-  C-organik (\%)                    & 0.61  & 0.57  \\
-  Rapatan isi (mg m$^{-3}$)         & 1.43  & 0.16  \\
+  Pasir (\%)                        & 47,66 & 23,81 \\
+  Lempung (\%)                      & 21,80 & 11,94 \\
+  Liat (\%)                         & 30,72 & 18,09 \\
+  C-organik (\%)                    & 0,61  & 0,57  \\
+  Rapatan isi (mg m$^{-3}$)         & 1,43  & 0,16  \\
   KTK (mek 100 g$^{-1}$ tanah)$^{\mathrm{a}}$
-                                     & 18.08 & 17.09 \\
-  KAT pada KL (g g$^{-1}$)          & 23.62 & 10.80 \\
-  KAT pada TLP (g g$^{-1}$)         & 11.11 & 9.05  \\
+                                     & 18,08 & 17,09 \\
+  KAT pada KL (g g$^{-1}$)          & 23,62 & 10,80 \\
+  KAT pada TLP (g g$^{-1}$)         & 11,11 & 9,05  \\
   \bottomrule
-\end{tabular}
-\end{center}
+\end{tabular}\par}
 
 \par\vspace{3pt}\noindent{\footnotesize
   $^{\mathrm{a}}$Banyaknya 70 contoh tanah; KTK: kapasitas tukar kation,
   KAT: kadar air tanah, KL: kapasitas lapang, TLP: titik layu permanen.\par}
 
-\vspace{1.5cm}
+\clearpage
 
 % -----------------------------------------------------------------------------
 % Lampiran 2
 % -----------------------------------------------------------------------------
-\captionlampiran{Umur, indeks luas daun, dan hasil biji kering jagung
-  yang ditanam pada lima ketinggian tempat}
-\label{lamp:jagung}
+\captionlampirancentered{Penguasaan pulau berpenghuni di Kepulauan Seribu}
+\label{lamp:kepulauan-seribu}
 
-\vspace{4pt}
+\vspace{6pt}
 
-\begin{center}
-\begin{tabular}{cccc}
+{\centering
+\fontsize{11pt}{13.8pt}\selectfont
+\begin{tabular}{@{}>{\centering\arraybackslash}p{1.19cm}@{}p{3.31cm}@{}>{\centering\arraybackslash}p{3.50cm}@{}>{\centering\arraybackslash}p{2cm}@{}>{\centering\arraybackslash}p{2.75cm}@{}}
   \toprule
-  Ketinggian (m dpl) & Umur (hari) & Indeks luas daun & Hasil (ton ha$^{-1}$) \\
-  \midrule
-  856 & 115 & 3.10 & 5.69 \\
-  605 & 106 & 3.09 & 5.43 \\
-  400 & 100 & 2.47 & 4.80 \\
-  210 &  93 & 2.46 & 4.25 \\
-   10 &  88 & 2.12 & 4.03 \\
+  \multicolumn{1}{c}{\textbf{No.}}
+    & \multicolumn{1}{c}{\textbf{Nama pulau}}
+    & \multicolumn{1}{c}{\textbf{Kelurahan}}
+    & \multicolumn{1}{c}{\textbf{Luas (ha)}}
+    & \multicolumn{1}{c}{\textbf{Penguasaan}} \\
+  \specialrule{\lightrulewidth}{0pt}{0pt}
+   1 & Pulau Payung      & Pulau Tidung      & 20,86 & Pemprov DKI \\
+   2 & Pulau Tidung      &                   & 50,13 & Pemprov DKI \\
+   3 & Pulau Lancang     & Pulau Pari        & 15,13 & Pemprov DKI \\
+   4 & Pulau Pari        &                   & 41,32 & PT BPA \\
+   5 & Pulau Untung Jawa & Pulau Untung Jawa & 40,10 & Pemprov DKI \\
+   6 & Pulau Panggang    & Pulau Panggang    &  9,00 & Pemprov DKI \\
+   7 & Pulau Pramuka     &                   & 16,00 & Pemprov DKI \\
+   8 & Pulau Kelapa      & Pulau Kelapa      & 13,09 & Tidak ada data \\
+   9 & Pulau Kelapa Dua  &                   &  1,90 & Tidak ada data \\
+  10 & Pulau Harapan     & Pulau Harapan     &  6,70 & Pemprov DKI \\
+  11 & Pulau Sebira      &                   &  8,82 & Pemprov DKI \\
   \bottomrule
-\end{tabular}
-\end{center}
+\end{tabular}\par}

@@ -2,6 +2,13 @@
 /build/
 /dist/
 
+## Local source references used during the PPTA 2026 migration
+## These official/source documents are intentionally not distributed with the
+## LaTeX repository. Keep them locally when doing comparison tests.
+/Pedoman-Penyajian-Tugas-Akhir-IPB_Final.pdf
+/PPTA .dotx Template/
+/PPTA .dotx to .pdf (Indonesia Only)/
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -329,12 +336,11 @@ TSWLatexianTemp*
 # Uncomment the next line to have this generated file ignored.
 # *Notes.bib
 
-# MacOS 
+# macOS
 __MACOSX/
 .DS_Store
 .omo
-# Build output
-*.pdf
 
-# Build artifacts
-/build/
+# PDF sementara bila kompilasi dijalankan langsung di luar Makefile.
+# `main.pdf` tetap dilacak untuk kompatibilitas dengan struktur upstream.
+/tmp.pdf

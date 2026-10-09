@@ -1,51 +1,12 @@
-## Chktex configuration
-## Referensi: man chktex
+# ChkTeX configuration for the IPB thesis template.
+# Suppress warnings that conflict with Indonesian prose or deliberate layout.
 
-# Abaikan peringatan spesifik yang umum untuk template
-Abbrev = 1
-Accent = 1
-Ampersand = 1
-Argument = 1
-Avoid = 1
-Bold = 1
-Bracket = 1
-Citation = 1
-Comma = 1
-Comment = 1
-Cpt = 1
-Dash = 1
-DblDash = 1
-Dots = 1
-EndDot = 1
-EqMark = 1
-Escape = 1
-Excl = 1
-FCtr = 1
-Foreign = 1
-FTpl = 1
-Gql = 1
-Group = 1
-ItWid = 1
-Ital = 1
-Label = 1
-Match = 1
-Math = 1
-Meta = 1
-MissArg = 1
-Number = 1
-Parent = 1
-Phrase = 1
-Punc = 1
-Quotes = 1
-RegEx = 1
-Repair = 1
-Sect = 1
-Sentence = 1
-Size = 1
-Spc = 1
-Spell = 3
-Stop = 1
-Terse = 1
-Toks = 1
-Var = 1
-Wipe = 1
+CmdLine
+{
+  -n1
+  -n8
+  -n13
+  -n18
+  -n24
+  -n36
+}

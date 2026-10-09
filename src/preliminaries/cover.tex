@@ -1,41 +1,40 @@
 % =============================================================================
-% Halaman Judul (Cover)
-%
-% PPKI: Halaman judul tanpa nomor halaman. Teks diatur simetris di tengah
-% halaman: judul di atas, nama penulis, logo IPB, lalu nama departemen,
-% fakultas, universitas, dan tahun.
+% Halaman Sampul Digital -- PPTA IPB 2026
 % =============================================================================
 
-\setcounter{page}{1}
 \thispagestyle{empty}
-
 \begin{center}
 
-\vspace*{3cm}
+\vspace*{0.9cm}
 
-% Judul (maksimum 3 baris, 14pt, tebal, rata tengah)
-{\fontsize{14pt}{17pt}\selectfont\bfseries
-\JudulSkripsi\par}
-
-\vspace{3cm}
-
-% Nama penulis (14pt, tebal, rata tengah)
-{\fontsize{14pt}{17pt}\selectfont\bfseries
-\NamaPenulis\par}
-
-\vspace{2cm}
-
-% Logo IPB di tengah
 \includegraphics[width=2.5cm]{resources/ipb-logo}
 
-\vspace{2cm}
+\vspace{1.04cm}
 
-% Departemen, Fakultas, Universitas, Kota, Tahun (14pt, tebal, rata tengah)
 {\fontsize{14pt}{17pt}\selectfont\bfseries
-\Departemen\\
-\Fakultas\\
-\Universitas\\
-\KotaUniversitas\\
+\MakeUppercase{\Universitas}\par}
+
+\vspace{1.67cm}
+
+{\fontsize{14pt}{17pt}\selectfont\bfseries
+\MakeUppercase{\JudulSkripsi}\par}
+
+\vspace{1.82cm}
+
+{\fontsize{14pt}{17pt}\selectfont\bfseries SKRIPSI\par}
+
+\vspace{4.2cm}
+
+{\fontsize{14pt}{17pt}\selectfont\bfseries
+\MakeUppercase{\NamaPenulis}\par
+\NIM\par}
+
+\vspace{3.6cm}
+
+{\fontsize{14pt}{17pt}\selectfont\bfseries
+\MakeUppercase{\Fakultas}\par
+\MakeUppercase{\ProgramStudi}\par
+\MakeUppercase{\KotaUniversitas}\par
 \Tahun\par}
 
 \end{center}

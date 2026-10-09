@@ -50,7 +50,7 @@ REM === PATH agar latexmk dan biber ditemukan ===
 REM MacTeX: tambahkan /Library/TeX/texbin
 REM MiKTeX: tambahkan C:\Program Files\MiKTeX\miktex\bin\x64
 REM TeX Live: tambah manual sesuai instalasi
-set "PATH=%PATH%;C:\texlive\2024\bin\windows;C:\Program Files\MiKTeX\miktex\bin\x64;C:\Users\%USERNAME%\AppData\Local\Programs\MiKTeX\miktex\bin\x64"
+set "PATH=%PATH%;C:\texlive\2026\bin\windows;C:\Program Files\MiKTeX\miktex\bin\x64;C:\Users\%USERNAME%\AppData\Local\Programs\MiKTeX\miktex\bin\x64"
 set "TEXINPUTS=.;src\;src\config\;build\;"
 set "BSTINPUTS=.;src\;src\config\;"
 set "BIBINPUTS=.;src\;"
@@ -76,15 +76,17 @@ echo   %ESC%[1;33m::%ESC%[0m Building %ESC%[0;36m%OUT_NAME%.pdf%ESC%[0m
 echo   %ESC%[0;33mDepartemen%ESC%[0m: %DEPT_SHORT%
 echo   %ESC%[0;33mPenulis%ESC%[0m:    %NAMA%
 
-REM latexmk auto-detect biber (backend=biblatex) dan jalankan sesuai kebutuhan
-latexmk -pdf -file-line-error -interaction=nonstopmode -output-directory=build -aux-directory=build -jobname=tmp src\main.tex
+REM latexmk mendeteksi biber dan menjalankan LuaLaTeX sesuai kebutuhan
+latexmk -lualatex -file-line-error -halt-on-error -interaction=nonstopmode -output-directory=build -aux-directory=build -jobname=tmp src\main.tex
 if errorlevel 1 (
     echo   %ESC%[0;31mFAIL%ESC%[0m  latexmk gagal. Lihat build\tmp.log untuk detail.
     exit /b 1
 )
 if exist build\tmp.pdf (
     move /Y build\tmp.pdf "%OUT_PATH%" >nul
+    copy /Y "%OUT_PATH%" "main.pdf" >nul
     echo   %ESC%[0;32mOK%ESC%[0m    %ESC%[0;36m%OUT_PATH%%ESC%[0m
+    echo   %ESC%[0;32mOK%ESC%[0m    %ESC%[0;36mmain.pdf%ESC%[0m
 ) else (
     echo   %ESC%[0;31mFAIL%ESC%[0m  PDF tidak dihasilkan.
     exit /b 1
@@ -114,7 +116,11 @@ if errorlevel 1 (
     exit /b 1
 )
 echo   %ESC%[1;33m::%ESC%[0m Validating LaTeX source with chktex...
-chktex -q -l .chktexrc -r -I src\main.tex
+chktex -q -l .chktexrc -I src\main.tex
+if errorlevel 1 (
+    echo   %ESC%[0;31mFAIL%ESC%[0m  Validasi menemukan masalah.
+    exit /b 1
+)
 echo   %ESC%[0;32mOK%ESC%[0m    Validation complete
 goto :eof
 
