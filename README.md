@@ -1,6 +1,7 @@
 # Template Tugas Akhir Sarjana (S1) IPB University
 
 [![LaTeX](https://img.shields.io/badge/LaTeX-LuaLaTeX-blue.svg)](https://www.latex-project.org/)
+[![Tectonic](https://img.shields.io/badge/Tectonic-supported-blueviolet.svg)](https://tectonic-typesetting.github.io/)
 [![TeX Live](https://img.shields.io/badge/TeX%20Live-2024%2B-green.svg)](https://tug.org/texlive/)
 [![MiKTeX](https://img.shields.io/badge/MiKTeX-supported-brightgreen.svg)](https://miktex.org/)
 [![Overleaf](https://img.shields.io/badge/Overleaf-ready-brightgreen.svg)](https://www.overleaf.com/read/zcgrrzkfgkcw)
@@ -32,13 +33,13 @@ Cara termudah untuk menggunakan template ini:
 
 ## Kebutuhan
 
-Template ini membutuhkan distribusi LaTeX lengkap dengan LuaLaTeX, `latexmk`,
-`biber`, dan paket-paket yang tercantum dalam `src/config/ipb-thesis.sty`.
-`chktex` diperlukan untuk validasi. Distribusi yang didukung:
+Template ini mendukung compiler modern **Tectonic** (ringan, auto-download paket) maupun distribusi LaTeX lengkap dengan **LuaLaTeX**, `latexmk`, `biber`, dan paket-paket yang tercantum dalam `src/config/ipb-thesis.sty`. `chktex` diperlukan untuk validasi. Opsi yang didukung:
 
-- **macOS**: BasicTeX atau MacTeX
-- **Windows**: MiKTeX atau TeX Live
-- **Linux**: TeX Live (paket texlive-full atau texlive-latex-extra)
+- **Tectonic** (lintas platform, sangat direkomendasikan: instalasi ringan
+  ~50 MB, otomatis mengunduh paket yang dibutuhkan tanpa konfigurasi manual)
+- **macOS**: Tectonic, BasicTeX, atau MacTeX
+- **Windows**: Tectonic, MiKTeX, atau TeX Live
+- **Linux**: Tectonic atau TeX Live (paket texlive-full atau texlive-latex-extra)
 - **Web**: Overleaf (tidak perlu instalasi lokal)
 
 Detail instalasi per platform tersedia di [GUIDE.md](GUIDE.md).
@@ -50,8 +51,11 @@ Template ini dilengkapi skrip kompilasi. Untuk build PDF:
 Linux atau macOS:
 
 ```
-make              Build PDF
-make build        Build PDF (sama dengan default)
+make              Build PDF (otomatis memilih tectonic atau pdflatex)
+make build        Build PDF (dapat ditambah ENGINE=tectonic atau ENGINE=pdflatex)
+make tectonic     Build PDF khusus dengan Tectonic
+make pdflatex     Build PDF khusus dengan pdfLaTeX
+make doctor       Cek diagnostik ketersediaan compiler dan tool
 make clean        Hapus artefak atau file temporary hasil kompilasi LaTeX
 make distclean    Hapus direktori build/ dan dist/
 make validate     Validasi sumber LaTeX dengan chktex
@@ -62,17 +66,23 @@ make help         Tampilkan pesan bantuan
 Windows:
 
 ```
-make.bat
-make.bat build
-make.bat clean
-make.bat distclean
-make.bat validate
+make.bat          Build PDF (otomatis memilih tectonic atau latexmk)
+make.bat build    Build PDF (sama dengan default)
+make.bat tectonic Build PDF khusus dengan Tectonic
+make.bat pdflatex Build PDF khusus dengan latexmk/pdfLaTeX
+make.bat clean    Hapus artefak
+make.bat distclean Hapus direktori build/ dan dist/
+make.bat validate Validasi dengan chktex
 ```
 
 Tanpa Makefile:
 
 ```
+# Menggunakan LuaLaTeX (rekomendasi distribusi lengkap):
 latexmk -lualatex -output-directory=build src/main.tex
+
+# Menggunakan Tectonic (rekomendasi ringan):
+tectonic -Z search-path=. -Z search-path=src/config -Z search-path=src -o build src/main.tex
 ```
 
 Nama PDF dihasilkan otomatis dari data di `src/config/information.tex`

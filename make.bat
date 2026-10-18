@@ -58,6 +58,8 @@ set "BIBINPUTS=.;src\;"
 REM === Dispatcher ===
 if /I "%TARGET%"=="build" goto :build
 if /I "%TARGET%"=="all" goto :build
+if /I "%TARGET%"=="tectonic" goto :build_tectonic
+if /I "%TARGET%"=="pdflatex" goto :build_pdflatex
 if /I "%TARGET%"=="clean" goto :clean
 if /I "%TARGET%"=="distclean" goto :distclean
 if /I "%TARGET%"=="validate" goto :validate
@@ -69,10 +71,41 @@ goto :help
 
 REM -----------------------------------------------------------------------------
 :build
+where tectonic >nul 2>nul
+if %errorlevel% equ 0 goto :build_tectonic
+goto :build_pdflatex
+
+REM -----------------------------------------------------------------------------
+:build_tectonic
 if not exist build mkdir build
 if not exist dist mkdir dist
 
-echo   %ESC%[1;33m::%ESC%[0m Building %ESC%[0;36m%OUT_NAME%.pdf%ESC%[0m
+echo   %ESC%[1;33m::%ESC%[0m Building %ESC%[0;36m%OUT_NAME%.pdf%ESC%[0m via Tectonic
+echo   %ESC%[0;33mDepartemen%ESC%[0m: %DEPT_SHORT%
+echo   %ESC%[0;33mPenulis%ESC%[0m:    %NAMA%
+
+tectonic -Z search-path=. -Z search-path=src\config -Z search-path=src -o build src\main.tex
+if errorlevel 1 (
+    echo   %ESC%[0;31mFAIL%ESC%[0m  tectonic gagal.
+    exit /b 1
+)
+if exist build\main.pdf (
+    move /Y build\main.pdf "%OUT_PATH%" >nul
+    copy /Y "%OUT_PATH%" "main.pdf" >nul
+    echo   %ESC%[0;32mOK%ESC%[0m    %ESC%[0;36m%OUT_PATH%%ESC%[0m
+    echo   %ESC%[0;32mOK%ESC%[0m    %ESC%[0;36mmain.pdf%ESC%[0m
+) else (
+    echo   %ESC%[0;31mFAIL%ESC%[0m  PDF tidak dihasilkan.
+    exit /b 1
+)
+goto :eof
+
+REM -----------------------------------------------------------------------------
+:build_pdflatex
+if not exist build mkdir build
+if not exist dist mkdir dist
+
+echo   %ESC%[1;33m::%ESC%[0m Building %ESC%[0;36m%OUT_NAME%.pdf%ESC%[0m via latexmk
 echo   %ESC%[0;33mDepartemen%ESC%[0m: %DEPT_SHORT%
 echo   %ESC%[0;33mPenulis%ESC%[0m:    %NAMA%
 
@@ -139,8 +172,10 @@ echo.
 echo   IPB Thesis LaTeX Template
 echo   ============================
 echo.
-echo   make.bat         Bangun PDF
-echo   make.bat build   Bangun PDF
+echo   make.bat         Bangun PDF (auto-detect tectonic / latexmk)
+echo   make.bat build   Bangun PDF (auto-detect tectonic / latexmk)
+echo   make.bat tectonic Bangun PDF khusus dengan Tectonic
+echo   make.bat pdflatex Bangun PDF khusus dengan latexmk/pdfLaTeX
 echo   make.bat clean   Hapus artefak
 echo   make.bat distclean Hapus build/ dan dist/
 echo   make.bat validate Validasi dengan chktex

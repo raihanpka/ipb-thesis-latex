@@ -78,6 +78,8 @@ endif
 # -----------------------------------------------------------------------------
 LUALATEX_BIN := $(shell which lualatex 2>/dev/null)
 LATEXMK_BIN  := $(shell which latexmk 2>/dev/null)
+TECTONIC_BIN := $(shell which tectonic 2>/dev/null)
+PDFLATEX_BIN := $(shell which pdflatex 2>/dev/null)
 BIBER_BIN    := $(shell which biber 2>/dev/null)
 CHKTeX_BIN   := $(shell which chktex 2>/dev/null)
 
@@ -89,17 +91,50 @@ ifeq ($(OS),macos)
         else ifneq (,$(findstring texlive,$(LUALATEX_BIN)))
             TEX_DIST := mactex
         endif
+    else ifneq ($(TECTONIC_BIN),)
+        TEX_DIST := tectonic
     endif
 endif
 ifeq ($(OS),linux)
     ifneq ($(LUALATEX_BIN),)
         TEX_DIST := texlive
+    else ifneq ($(TECTONIC_BIN),)
+        TEX_DIST := tectonic
     endif
 endif
 ifeq ($(OS),windows)
     ifneq ($(LUALATEX_BIN),)
         TEX_DIST := miktex
+    else ifneq ($(TECTONIC_BIN),)
+        TEX_DIST := tectonic
     endif
+endif
+ifeq ($(TEX_DIST),none)
+    ifneq ($(TECTONIC_BIN),)
+        TEX_DIST := tectonic
+    endif
+endif
+
+# -----------------------------------------------------------------------------
+# Pemilihan Compiler (lualatex / tectonic / pdflatex)
+# -----------------------------------------------------------------------------
+ENGINE ?= auto
+ifeq ($(ENGINE),auto)
+    ifneq ($(LUALATEX_BIN),)
+        ifneq ($(LATEXMK_BIN),)
+            COMPILER := lualatex
+        else ifneq ($(TECTONIC_BIN),)
+            COMPILER := tectonic
+        endif
+    else ifneq ($(TECTONIC_BIN),)
+        COMPILER := tectonic
+    else ifneq ($(PDFLATEX_BIN),)
+        COMPILER := pdflatex
+    else
+        COMPILER := none
+    endif
+else
+    COMPILER := $(ENGINE)
 endif
 
 # -----------------------------------------------------------------------------
@@ -135,12 +170,24 @@ LATEX_TEMP := *.aux *.log *.toc *.lof *.lot *.fls *.out *.bbl *.blg \
               *.bcf *.run.xml *.fdb_latexmk *.synctex.gz *.idx *.ind \
               *.ilg *.lot *.lof *.toc *.nav *.out *.snm *.vrb
 
-.PHONY: all build install doctor clean distclean validate watch help
+.PHONY: all build tectonic lualatex pdflatex install doctor clean distclean validate watch help
 
 # =============================================================================
 # Target default
 # =============================================================================
 all: build
+
+# =============================================================================
+# Target spesifik compiler
+# =============================================================================
+tectonic:
+	@$(MAKE) build ENGINE=tectonic
+
+lualatex:
+	@$(MAKE) build ENGINE=lualatex
+
+pdflatex:
+	@$(MAKE) build ENGINE=pdflatex
 
 # =============================================================================
 # Pesan bantuan
@@ -151,7 +198,10 @@ help:
 	@printf "  ${B}============================${NC}\n"
 	@printf "\n"
 	@printf "  ${G}make${NC}             Bangun PDF (sama dengan 'make build')\n"
-	@printf "  ${G}make build${NC}       Bangun PDF ke direktori dist/\n"
+	@printf "  ${G}make build${NC}       Bangun PDF (auto-detect lualatex / tectonic / pdflatex)\n"
+	@printf "  ${G}make tectonic${NC}    Bangun PDF khusus menggunakan Tectonic\n"
+	@printf "  ${G}make lualatex${NC}    Bangun PDF khusus menggunakan LuaLaTeX\n"
+	@printf "  ${G}make pdflatex${NC}    Bangun PDF khusus menggunakan pdfLaTeX\n"
 	@printf "  ${G}make install${NC}     Install paket LaTeX (deteksi OS otomatis)\n"
 	@printf "  ${G}make doctor${NC}      Cek apakah semua tool LaTeX tersedia\n"
 	@printf "  ${G}make clean${NC}       Hapus file sementara + direktori build/\n"
@@ -165,6 +215,7 @@ help:
 	@printf "  ${Y}Penulis${NC}: $(NAMA)\n"
 	@printf "  ${Y}OS${NC}: $(OS)\n"
 	@printf "  ${Y}TeX${NC}: $(TEX_DIST)\n"
+	@printf "  ${Y}Compiler${NC}: $(COMPILER)\n"
 	@printf "\n"
 
 # =============================================================================
@@ -174,9 +225,10 @@ doctor:
 	@printf "\n  ${B}:: Diagnostik Tool LaTeX${NC}\n\n"
 	@printf "  OS           : ${C}$(OS)${NC}\n"
 	@printf "  Package mgr  : ${C}$(PKG_MGR)${NC}\n"
-	@printf "  TeX dist     : ${C}$(TEX_DIST)${NC}\n\n"
-	@printf "  Tool yang dibutuhkan:\n"
-	@for tool in lualatex latexmk biber chktex; do \
+	@printf "  TeX dist     : ${C}$(TEX_DIST)${NC}\n"
+	@printf "  Compiler     : ${C}$(COMPILER)${NC}\n\n"
+	@printf "  Tool yang didukung:\n"
+	@for tool in lualatex tectonic pdflatex latexmk biber chktex; do \
 	    if command -v $$tool >/dev/null 2>&1; then \
 	        v=$$($$tool --version 2>&1 | head -1); \
 	        printf "    ${G}OK${NC}    %-10s %s\n" "$$tool" "$$v"; \
@@ -185,10 +237,10 @@ doctor:
 	    fi; \
 	done
 	@printf "\n"
-	@if [ -z "$(LUALATEX_BIN)" ] || [ -z "$(LATEXMK_BIN)" ] || [ -z "$(BIBER_BIN)" ]; then \
-	    printf "  ${Y}::${NC} TeX belum terinstall. Jalankan: ${G}make install${NC}\n\n"; \
+	@if [ -z "$(LUALATEX_BIN)" ] && [ -z "$(TECTONIC_BIN)" ] && [ -z "$(PDFLATEX_BIN)" ]; then \
+	    printf "  ${Y}::${NC} TeX/compiler belum terinstall. Rekomendasi ringan: ${G}brew install tectonic${NC} atau jalankan: ${G}make install${NC}\n\n"; \
 	else \
-	    printf "  ${G}::${NC} Semua tool sudah tersedia.\n\n"; \
+	    printf "  ${G}::${NC} Compiler siap digunakan (${C}$(COMPILER)${NC}).\n\n"; \
 	fi
 
 # =============================================================================
@@ -261,17 +313,46 @@ build: $(TARGET)
 	@printf "  ${G}OK${NC}    ${C}$(ROOTPDF)${NC}\n"
 
 $(TARGET): $(SRC) $(shell find src -type f) $(INFOFILE) Makefile
+ifeq ($(COMPILER),tectonic)
+	@if test -z "$(TECTONIC_BIN)"; then \
+	    echo "  FAIL  tectonic tidak ditemukan. Install via 'brew install tectonic' atau 'cargo install tectonic'"; \
+	    exit 1; \
+	fi
+	@echo "  :: Building $(OUT_NAME).pdf via Tectonic"
+	@mkdir -p $(BUILDDIR) $(DISTDIR)
+	@tectonic -Z search-path=. -Z search-path=src/config -Z search-path=src -o $(BUILDDIR) --outfmt pdf $(SRC)
+	@cp -f $(BUILDDIR)/main.pdf $(TARGET)
+	@printf "  ${G}OK${NC}    ${C}$(TARGET)${NC}\n"
+else ifeq ($(COMPILER),lualatex)
 	@if test -z "$(LUALATEX_BIN)" || test -z "$(LATEXMK_BIN)" || test -z "$(BIBER_BIN)"; then \
 	    echo "  FAIL  lualatex, latexmk, dan biber wajib tersedia"; \
 	    exit 1; \
 	fi
-	@echo "  :: Building $(OUT_NAME).pdf"
+	@echo "  :: Building $(OUT_NAME).pdf via LuaLaTeX"
 	@mkdir -p $(BUILDDIR) $(DISTDIR)
 	@TEXINPUTS=".:src/:src/config/:build/:" BIBINPUTS=".:src/:src/refs/:build/:" \
 	  latexmk -lualatex -file-line-error -halt-on-error -interaction=nonstopmode \
 	  -output-directory=$(BUILDDIR) -jobname=tmp $(SRC)
 	@cp -f $(BUILDDIR)/tmp.pdf $(TARGET)
 	@printf "  ${G}OK${NC}    ${C}$(TARGET)${NC}\n"
+else ifeq ($(COMPILER),pdflatex)
+	@if test -z "$(PDFLATEX_BIN)"; then \
+	    echo "  FAIL  pdflatex tidak ditemukan"; \
+	    exit 1; \
+	fi
+	@echo "  :: Building $(OUT_NAME).pdf via pdfLaTeX"
+	@mkdir -p $(BUILDDIR) $(DISTDIR)
+	@TEXINPUTS=".:src/:src/config/:build/:" BIBINPUTS=".:src/:src/refs/:build/:" \
+	  latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode \
+	  -output-directory=$(BUILDDIR) -jobname=tmp $(SRC)
+	@cp -f $(BUILDDIR)/tmp.pdf $(TARGET)
+	@printf "  ${G}OK${NC}    ${C}$(TARGET)${NC}\n"
+else
+	@echo "  FAIL  Tidak ditemukan compiler LaTeX yang didukung (tectonic, lualatex, atau pdflatex)."
+	@echo "        Rekomendasi ringan: pasang tectonic via 'brew install tectonic' / 'winget install tectonic'"
+	@echo "        Atau pasang TeX Live/BasicTeX melalui: 'make install'"
+	@exit 1
+endif
 
 # =============================================================================
 # Clean: hapus file sementara + direktori build/

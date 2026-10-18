@@ -9,12 +9,13 @@ informasi singkat. Versi ini mengikuti PPTA IPB 2026 dan templat resmi
 ## Daftar Isi
 
 - [1. Instalasi LaTeX](#1-instalasi-latex)
-  - [1.1 macOS: BasicTeX via Homebrew (hemat storage)](#11-macos-basictex-via-homebrew-hemat-storage)
-  - [1.2 macOS: MacTeX via Homebrew (lengkap, ~5 GB)](#12-macos-mactex-via-homebrew-lengkap-5-gb)
-  - [1.3 Windows: MiKTeX](#13-windows-miktex)
-  - [1.4 Windows: TeX Live](#14-windows-tex-live)
-  - [1.5 Linux: TeX Live](#15-linux-tex-live)
-  - [1.6 Verifikasi Instalasi](#16-verifikasi-instalasi)
+  - [1.1 Tectonic: Modern, Ringan, dan Otomatis (~50 MB)](#11-tectonic-modern-ringan-dan-otomatis-50-mb)
+  - [1.2 macOS: BasicTeX via Homebrew (hemat storage)](#12-macos-basictex-via-homebrew-hemat-storage)
+  - [1.3 macOS: MacTeX via Homebrew (lengkap, ~5 GB)](#13-macos-mactex-via-homebrew-lengkap-5-gb)
+  - [1.4 Windows: MiKTeX](#14-windows-miktex)
+  - [1.5 Windows: TeX Live](#15-windows-tex-live)
+  - [1.6 Linux: TeX Live](#16-linux-tex-live)
+  - [1.7 Verifikasi Instalasi](#17-verifikasi-instalasi)
 - [2. Penggunaan Template](#2-penggunaan-template)
   - [2.1 Isi Data Mahasiswa](#21-isi-data-mahasiswa)
   - [2.2 Tulis Isi Skripsi](#22-tulis-isi-skripsi)
@@ -39,16 +40,52 @@ informasi singkat. Versi ini mengikuti PPTA IPB 2026 dan templat resmi
 
 ## 1. Instalasi LaTeX
 
-Template ini membutuhkan distribusi LaTeX yang **lengkap** karena
-memerlukan paket `biblatex`, `biber`, `chktex`, dan paket tambahan
-lainnya. Pilih distribusi sesuai kebutuhan storage dan platform.
+Template ini dapat dikompilasi menggunakan compiler modern **Tectonic**
+maupun distribusi TeX tradisional (TeX Live, MacTeX, MiKTeX) yang dilengkapi
+`biblatex`, `biber`, dan `chktex`.
 
-### 1.1 macOS: BasicTeX via Homebrew (hemat storage)
+### 1.1 Tectonic: Modern, Ringan, dan Otomatis (~50 MB)
+
+Tectonic (<https://tectonic-typesetting.github.io/>) adalah compiler TeX
+modern berbasis XeTeX yang sangat ringan dan independen. Kelebihan utamanya:
+- **Sangat ringan**: Binary tunggal (~50 MB), tidak perlu mengunduh distribusi
+  TeX Live atau MiKTeX yang berukuran beberapa gigabyte.
+- **Otomatis unduh paket**: Paket LaTeX yang dibutuhkan template diunduh
+  secara otomatis ke cache lokal saat kompilasi pertama.
+- **Kompilasi satu langkah**: Menyelesaikan pass TeX dan BibTeX otomatis hingga
+  seluruh referensi silang tuntas tanpa perlu konfigurasi `latexmk` tambahan.
+
+**Instalasi Tectonic:**
+
+- **macOS (Homebrew)**:
+  ```
+  brew install tectonic
+  ```
+- **Windows**:
+  ```
+  winget install tectonic
+  # atau
+  choco install tectonic
+  # atau
+  scoop install tectonic
+  ```
+- **Linux**:
+  ```
+  # Arch Linux
+  sudo pacman -S tectonic
+
+  # Fedora
+  sudo dnf install tectonic
+
+  # Ubuntu / Debian (via PPA atau cargo)
+  cargo install tectonic
+  ```
+
+### 1.2 macOS: BasicTeX via Homebrew (hemat storage)
 
 BasicTeX adalah installer minimal (~130 MB). Cocok untuk Anda yang
 ingin hemat storage dan tidak keberatan menginstall paket tambahan
-secara manual via `tlmgr`. **Ini adalah pilihan yang dipakai oleh
-pengembang template ini.**
+secara manual via `tlmgr`.
 
 ```
 brew install --cask basictex

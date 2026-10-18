@@ -12,12 +12,30 @@ ini. Format penomoran versi mengikuti [Semantic Versioning](https://semver.org/)
 - String bahasa Indonesia tambahan di `ipb-thesis.sty` untuk sitasi
   dan daftar pustaka: `diakses`, `diedit oleh`, `diterjemahkan oleh`,
   `tersedia pada`, `Volume ke-`, `Ed ke-`, `hlm`.
+- **Dukungan Tectonic**: template kini dapat dikompilasi dengan
+  [Tectonic](https://tectonic-typesetting.github.io/) secara langsung.
+  `make build` (dan `make.bat build`) otomatis mendeteksi dan menggunakan
+  Tectonic bila tersedia.
+- Target `make tectonic` dan `make pdflatex` (serta padanannya di
+  `make.bat`) untuk memilih compiler secara eksplisit.
+- Variabel `ENGINE` untuk override compiler dari CLI:
+  `make build ENGINE=tectonic` atau `make build ENGINE=pdflatex`.
+- Target `make doctor` kini menampilkan status Tectonic dan compiler
+  yang aktif selain tool TeX Live/MiKTeX tradisional.
+- Panduan instalasi Tectonic di `GUIDE.md` (Bagian 1.1).
+- Badge Tectonic di `README.md`.
 
 ### Diubah
 - Konfigurasi `ipb-thesis.sty` untuk menangani sumber daring dengan
   format `[diakses YYYY MMM DD]. URL.` sesuai PPKI Edisi ke-4.
 - README: menambah atribusi untuk Auriza Rahmad Akbar
   ([@auriza](https://github.com/auriza)) sebagai penulis CSL.
+- `\titleformat{\chapter}`: perbaikan parameter `sep` dari
+  `{\hspace{1.5em}}` menjadi `{1.5em}` agar kompatibel dengan
+  XeTeX (digunakan oleh Tectonic) dan pdfLaTeX.
+- `make install`: sekarang menawarkan instalasi Tectonic sebagai
+  opsi ringan di macOS dan Windows.
+- `make doctor`: memeriksa ketersediaan Tectonic, bukan hanya pdflatex.
 
 ## [2.0.0] - 2026-06-29
 

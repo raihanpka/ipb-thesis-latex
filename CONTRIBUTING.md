@@ -16,8 +16,8 @@ memiliki saran perbaikan:
    halaman [Issues](https://github.com/raihanpka/ipb-thesis-latex/issues).
 2. Gunakan template issue yang tersedia.
 3. Sertakan:
-   - Versi TeX Live atau MiKTeX yang digunakan.
-   - Versi LuaLaTeX yang digunakan.
+   - Versi TeX Live, MiKTeX, atau Tectonic yang digunakan.
+   - Versi compiler yang digunakan (LuaLaTeX, Tectonic, pdflatex).
    - Perintah atau langkah reproduksi.
    - Tangkapan layar atau pesan kesalahan jika ada.
 

@@ -30,7 +30,11 @@
     \setmainfont{TeX Gyre Termes}[Ligatures=TeX]
     \PackageWarningNoLine{ipb-thesis}{Times New Roman tidak ditemukan; memakai TeX Gyre Termes}
   }
-  \setmathfont{TeX Gyre Termes Math}
+  \IfFontExistsTF{TeX Gyre Termes Math}{%
+    \setmathfont{TeX Gyre Termes Math}%
+  }{%
+    \setmathfont{texgyretermes-math.otf}%
+  }
 \fi
 \RequirePackage[main=indonesian,english,provide=*]{babel}
 
@@ -316,8 +320,13 @@
 % Tetapkan gaya kutip secara eksplisit karena csquotes belum menyediakan
 % gaya bernama "indonesian" pada semua distribusi TeX Live.
 \RequirePackage[style=english]{csquotes}
+\ifxetex
+  \def\ipb@bibbackend{bibtex}
+\else
+  \def\ipb@bibbackend{biber}
+\fi
 \RequirePackage[
-  backend=biber,
+  backend=\ipb@bibbackend,
   style=authoryear,
   natbib=true,
   sorting=nyt,
